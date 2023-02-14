@@ -1,34 +1,37 @@
-export const routes = [
+import {createRouter, createWebHistory} from "vue-router";
+
+const routes = [
     {
         path: '/',
         component: () => import('../layouts/main/layout-bar.vue'),
+        beforeEnter: setTitle,
         meta: {
-            title: 'Welcome to Dashboard'
+            title: 'Dashboard'
         },
         children: [
             {
                 path: '',
                 name: 'Dashboard',
-                // route level code-splitting
-                // this generates a separate chunk (about.[hash].js) for this route
-                // which is lazy-loaded when the route is visited.
                 component: () => import(/* webpackChunkName: "home" */ '../views/index.vue'),
+
             },
         ],
     },
     {
         path: '/login',
         component: () => import(/* webpackChunkName: "login" */'../views/auth/login.vue'),
+        beforeEnter: setTitle,
         meta: {
-            title: 'Swing :: Login Page'
+            title: 'Login'
         },
     },
 
     {
         path: '/profile',
         component: () => import('../layouts/main/layout-bar.vue'),
+        beforeEnter: setTitle,
         meta: {
-            title: 'Profile Page'
+            title: 'Profile'
         },
         children: [
             {
@@ -37,6 +40,15 @@ export const routes = [
                 component: () => import(/* webpackChunkName: "Profile" */'../views/user/admin/profile.vue')
             }
         ]
-    }
+    },
+];
 
-]
+function setTitle(to) {
+    document.title = to.meta.title ? to.meta.title + ' | ' + import.meta.env.VITE_APP_NAME : import.meta.env.VITE_APP_NAME ?? "cms"
+}
+
+export const router = createRouter({
+    history: createWebHistory(),
+    routes
+})
+

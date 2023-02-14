@@ -6,16 +6,11 @@
 
 // Plugins
 import vuetify from './vuetify'
-import {routes} from '../routes/router'
-import {createRouter, createWebHistory} from "vue-router";
+import {router} from '../routes/router'
 import {createPinia} from "pinia";
 import { loadFonts } from './webfontloader'
 const pinia = createPinia();
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
 
 export function registerPlugins (app) {
     loadFonts()
