@@ -85,7 +85,7 @@ export default {
         }
     },
     mounted() {
-        this.$globalHelper()
+        this.$toast.success(`Hey! I'm here`);
     }
 }
 </script>

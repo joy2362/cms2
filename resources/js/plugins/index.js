@@ -9,6 +9,7 @@ import vuetify from './vuetify'
 import {router} from '../routes/router'
 import {createPinia} from "pinia";
 import { loadFonts } from './webfontloader'
+import Toaster from "@meforma/vue-toaster";
 const pinia = createPinia();
 
 
@@ -18,4 +19,5 @@ export function registerPlugins (app) {
         .use(vuetify)
         .use(pinia)
         .use(router)
+        .use(Toaster)
 }
