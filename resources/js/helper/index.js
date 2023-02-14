@@ -5,7 +5,9 @@
  */
 
 import crud from "./crud";
+import toaster from "./toaster";
 export function registerHelper (app) {
     app
         .use(crud)
+        .use(toaster)
 }

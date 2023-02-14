@@ -64,9 +64,9 @@
 
 <script>
 export default {
-    data () {
+    data() {
         return {
-            logo: this.asset + '/assets/logo/logo.png' ,
+            logo: this.asset + '/assets/logo/logo.png',
             showPass: false,
             login: {
                 username: '',
@@ -84,8 +84,19 @@ export default {
             theme: localStorage.getItem('theme')
         }
     },
+    methods: {
+        async loginTest() {
+            const formData = new FormData();
+            formData.append('email', "admi0n@admin.com");
+            formData.append('password', "password");
+
+            const res = await this.$post('/api/login', formData);
+            console.log(res);
+        }
+    },
     mounted() {
-        this.$toast.success(`Hey! I'm here`);
+        this.loginTest();
+        this.$success(`Hey! I'm here for test`);
     }
 }
 </script>
@@ -94,6 +105,7 @@ export default {
 .mb {
     margin-bottom: 60px;
 }
+
 .main-bg {
     display: flex;
     justify-content: center;
@@ -103,30 +115,37 @@ export default {
     background-color: rgb(227, 227, 221);
     padding: 120px 0px;
 }
+
 .margin {
     margin-top: 29%;
 }
+
 .card-login {
     width: 600px;
 }
+
 @media screen and (max-width: 450px) {
     .card-login {
         width: 80%;
     }
 }
+
 .login-logo {
     width: 270px;
     height: auto;
 }
+
 @media screen and (max-width: 450px) {
     .login-logo {
         width: 150px;
     }
 }
+
 .form-login {
     width: 80%;
     margin: auto;
 }
+
 .login-button {
     display: flex;
     justify-content: center;
@@ -134,6 +153,7 @@ export default {
     margin-top: 50px;
     margin-bottom: 35px;
 }
+
 .btn-vendor {
     margin-left: 10px;
 }

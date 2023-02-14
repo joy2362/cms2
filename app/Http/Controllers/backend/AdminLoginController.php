@@ -26,14 +26,14 @@ class AdminLoginController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => $validator->messages()
-            ]);
+            ],422);
         }
         try {
             if(!Auth::guard('admin')->attempt( $validator->validated())){
                 return response()->json([
                     'success' => false,
                     'error' => "Email & Password does not match with our record."
-                ]);
+                ],422);
             }
 
             $admin = Admin::where('email', $validator->validated()['email'])->first();
@@ -48,12 +48,8 @@ class AdminLoginController extends Controller
             return response()->json([
                     'success' => false,
                     'errors' => $ex->getMessage(),
-                ]
+                ],422
             );
         }
-        return response()->json([
-                'data' => $validator->validated(),
-            ]
-        );
     }
 }

@@ -1,7 +1,16 @@
 const crud = {
     install(app , options){
-        app.config.globalProperties.$globalHelper = () =>{
-            console.log('register your helper method here')
+        app.config.globalProperties.$post = async (url, payload) => {
+            let response = {
+                 'data' : {},
+                 'errors' : {},
+            };
+            await axios.post(url, payload).then(res => {
+                response.data = res.data;
+            }).catch(err => {
+                response.errors = err.response.data;
+            })
+            return response;
         }
     }
 }
