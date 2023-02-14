@@ -14,19 +14,6 @@
                     </div>
                 </v-card-title>
 
-                <div class="d-flex justify-center mb">
-                    <v-btn prepend-icon="mdi-google" variant="tonal" color="red" size="small">
-                        SignIn
-                    </v-btn>
-                    <v-btn prepend-icon="mdi-facebook" variant="tonal" class="btn-vendor" color="blue" size="small">
-                        SignIn
-                    </v-btn>
-                </div>
-
-                <div class="d-flex justify-center mb">
-                    <b>OR</b>
-                </div>
-
                 <v-form
                     ref="form"
                     v-model="valid"
@@ -69,11 +56,8 @@
                             Login
                         </v-btn>
                     </div>
-
                 </v-form>
-
             </v-card>
-
         </div>
     </v-app>
 </template>
@@ -82,7 +66,7 @@
 export default {
     data () {
         return {
-            logo: import.meta.env.VITE_APP_URL + '/assets/logo/logo.png' ,
+            logo: this.asset + '/assets/logo/logo.png' ,
             showPass: false,
             login: {
                 username: '',
@@ -93,13 +77,16 @@ export default {
                 v => !!v || 'Username required',
             ],
             passwordRules: [
-                v => !!v || 'Password harus diisi',
+                v => !!v || 'Password required',
             ],
             valid: true,
             token: '',
             theme: localStorage.getItem('theme')
         }
     },
+    mounted() {
+        this.$globalHelper()
+    }
 }
 </script>
 

@@ -22,6 +22,21 @@ export const routes = [
         meta: {
             title: 'Swing :: Login Page'
         },
+    },
+
+    {
+        path: '/profile',
+        component: () => import('../layouts/main/layout-bar.vue'),
+        meta: {
+            title: 'Profile Page'
+        },
+        children: [
+            {
+                path: '',
+                name: 'Profile',
+                component: () => import(/* webpackChunkName: "Profile" */'../views/user/admin/profile.vue')
+            }
+        ]
     }
 
 ]
