@@ -16,21 +16,20 @@
 
                 <v-form
                     ref="form"
-                    v-model="valid"
                     lazy-validation
                     class="form-width"
                 >
 
                     <div class="form-login">
                         <v-text-field
-                            label="Username"
+                            label="Email"
                             density="compact"
                             variant="underlined"
                             color="primary"
-                            v-model="login.username"
-                            :rules="usernameRules"
-                            type="text"
-                            required
+                            v-model="form.email"
+                            type="email"
+                            :error="!!errors.email"
+                            :error-messages="errors.email"
                         ></v-text-field>
 
                         <v-text-field
@@ -38,12 +37,12 @@
                             variant="underlined"
                             color="primary"
                             label="Password"
-                            v-model="login.password"
-                            :rules="passwordRules"
+                            v-model="form.password"
                             :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                             @click:append="showPass = !showPass"
                             :type="showPass ? 'text' : 'password'"
-                            required
+                            :error="!!errors.password"
+                            :error-messages="errors.password"
                         ></v-text-field>
                     </div>
 
@@ -52,6 +51,9 @@
                         <v-btn
                             class="ma-2"
                             color="primary"
+                            @click="login"
+                            :disabled="loading"
+                            :loading="loading"
                         >
                             Login
                         </v-btn>
@@ -63,40 +65,53 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import { useAuthStore } from '../../stores/auth'
+
 export default {
     data() {
         return {
             logo: this.asset + '/assets/logo/logo.png',
             showPass: false,
-            login: {
-                username: '',
+            form: {
+                email: '',
                 password: '',
             },
             type: 'password',
-            usernameRules: [
-                v => !!v || 'Username required',
-            ],
-            passwordRules: [
-                v => !!v || 'Password required',
-            ],
             valid: true,
-            token: '',
+            errors: [],
+            loading: false,
             theme: localStorage.getItem('theme')
         }
     },
     methods: {
-        async loginTest() {
+
+        ...mapActions(useAuthStore, {authToken:'setToken'}),
+        async login() {
+            this.loading = true;
             const formData = new FormData();
-            formData.append('email', "admi0n@admin.com");
-            formData.append('password', "password");
+            formData.append('email', this.form.email);
+            formData.append('password', this.form.password);
 
             const res = await this.$post('/api/login', formData);
-            console.log(res);
+
+            if(res.data?.success){
+                this.authToken(res.data.token)
+                this.$success(res.data.message);
+                this.$router.push('/');
+            }
+            if(res.errors?.error){
+                this.$error(res.errors?.error);
+            }
+            if(res.errors?.errors){
+                this.errors = res.errors?.errors;
+            }
+            this.loading = false;
+
         }
     },
     mounted() {
-        this.loginTest();
-        this.$success(`Hey! I'm here for test`);
+        this.auth = useAuthStore()
     }
 }
 </script>
