@@ -1,9 +1,9 @@
 <template>
   <v-footer elevation="4">
     <v-row justify="center" no-gutters>
-      Make with <v-icon>mdi-heart</v-icon> by <b>Swing Developer</b>
+      Make with <v-icon color="red-darken-2">mdi-heart</v-icon> by <b>Abdullah zahid</b>
       <v-spacer></v-spacer>
-      &copy; Swing 2023
+      &copy; cms 2023
     </v-row>
   </v-footer>
 </template>
@@ -13,9 +13,4 @@ export default {};
 </script>
 
 <style scoped>
-/* .bottom {
-  position: absolute;
-  bottom: 0px;
-  width: 86%;
-} */
 </style>

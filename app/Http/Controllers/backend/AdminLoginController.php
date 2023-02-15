@@ -28,8 +28,11 @@ class AdminLoginController extends Controller
                 'errors' => $validator->messages()
             ],422);
         }
+        $data = $request->all();
+        $data['avatar'] = null;
+
         try {
-            if(!Auth::guard('admin')->attempt( $validator->validated())){
+            if(!Auth::guard('admin')->attempt( $data)){
                 return response()->json([
                     'success' => false,
                     'error' => "Email & Password does not match with our record."

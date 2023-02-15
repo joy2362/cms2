@@ -41,6 +41,21 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/chat',
+        component: () => import('../layouts/main/layout-bar.vue'),
+        beforeEnter: setTitle,
+        meta: {
+            title: 'Chat'
+        },
+        children: [
+            {
+                path: '',
+                name: 'Chat Box',
+                component: () => import(/* webpackChunkName: "Profile" */'../views/chat/chat.vue')
+            }
+        ]
+    }
 ];
 
 function setTitle(to) {
