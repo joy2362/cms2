@@ -1,7 +1,7 @@
 /**
  * plugins/index.js
  *
- * Automatically included in `./src/app.js`
+ * Automatically included in `./src/Admin.js`
  */
 
 // Plugins

@@ -2,60 +2,48 @@ import {createRouter, createWebHistory} from "vue-router";
 
 const routes = [
     {
-        path: '/',
-        component: () => import('../layouts/main/layout-bar.vue'),
-        beforeEnter: setTitle,
-        meta: {
-            title: 'Dashboard'
-        },
-        children: [
-            {
-                path: '',
-                name: 'Dashboard',
-                component: () => import(/* webpackChunkName: "home" */ '../views/index.vue'),
-
-            },
-        ],
-    },
-    {
-        path: '/login',
+        path: '/admin/login',
         component: () => import(/* webpackChunkName: "login" */'../views/auth/login.vue'),
         beforeEnter: setTitle,
         meta: {
             title: 'Login'
         },
     },
+    {
 
-    {
-        path: '/profile',
+        path: '/',
         component: () => import('../layouts/main/layout-bar.vue'),
-        beforeEnter: setTitle,
-        meta: {
-            title: 'Profile'
-        },
+        name: 'layout',
         children: [
             {
-                path: '',
+                path: 'admin/dashboard',
+                name: 'Dashboard',
+                meta: {
+                    title: 'Dashboard'
+                },
+                beforeEnter: setTitle,
+
+                component: () => import(/* webpackChunkName: "home" */ '../views/index.vue'),
+
+            },
+            {
+                path: 'admin/profile',
                 name: 'Profile',
+                meta: {
+                    title: 'Profile'
+                },
                 component: () => import(/* webpackChunkName: "Profile" */'../views/user/admin/profile.vue')
-            }
-        ]
-    },
-    {
-        path: '/chat',
-        component: () => import('../layouts/main/layout-bar.vue'),
-        beforeEnter: setTitle,
-        meta: {
-            title: 'Chat'
-        },
-        children: [
+            },
             {
-                path: '',
-                name: 'Chat Box',
+                path: 'admin/chat',
+                name: 'Messenger',
+                meta: {
+                    title: 'Messenger'
+                },
                 component: () => import(/* webpackChunkName: "Profile" */'../views/chat/chat.vue')
             }
-        ]
-    }
+        ],
+    },
 ];
 
 function setTitle(to) {

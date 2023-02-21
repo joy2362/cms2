@@ -5,6 +5,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title> {{config("app.name") ?? 'cms'}} </title>
+    @vite('resources/css/admin.css')
 </head>
 <body>
 <noscript>
@@ -13,7 +14,7 @@
 </noscript>
 <div id="app"></div>
 <!-- built files will be auto injected -->
-@vite('resources/js/app.js')
+@vite('resources/js/admin.js')
 </body>
 
 </html>
