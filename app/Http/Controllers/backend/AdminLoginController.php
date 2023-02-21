@@ -13,7 +13,7 @@ class AdminLoginController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function __invoke(Request $request)
@@ -22,21 +22,19 @@ class AdminLoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'errors' => $validator->messages()
-            ],422);
+            ], 422);
         }
-        $data = $request->all();
-        $data['avatar'] = null;
 
         try {
-            if(!Auth::guard('admin')->attempt( $data)){
+            if (!Auth::guard('admin')->attempt($validator->validated())) {
                 return response()->json([
                     'success' => false,
                     'error' => "Email & Password does not match with our record."
-                ],422);
+                ], 422);
             }
 
             $admin = Admin::where('email', $validator->validated()['email'])->first();
@@ -44,14 +42,14 @@ class AdminLoginController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Logged In Successfully',
-                'token' => $admin->createToken('token',['role:admin'])->plainTextToken
+                'token' => $admin->createToken('token', ['role:admin'])->plainTextToken
             ]);
-
-        }catch (\Exception $ex){
+        } catch (\Exception $ex) {
             return response()->json([
-                    'success' => false,
-                    'errors' => $ex->getMessage(),
-                ],422
+                'success' => false,
+                'errors' => $ex->getMessage(),
+            ],
+                422
             );
         }
     }

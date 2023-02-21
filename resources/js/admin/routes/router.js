@@ -3,10 +3,11 @@ import {createRouter, createWebHistory} from "vue-router";
 const routes = [
     {
         path: '/admin/login',
+        name: 'admin.login',
         component: () => import(/* webpackChunkName: "login" */'../views/auth/login.vue'),
-        beforeEnter: setTitle,
         meta: {
-            title: 'Login'
+            title: 'Login',
+            requireAuth: false
         },
     },
     {
@@ -17,18 +18,17 @@ const routes = [
         children: [
             {
                 path: 'admin/dashboard',
-                name: 'Dashboard',
+                name: 'admin.dashboard',
                 meta: {
-                    title: 'Dashboard'
+                    title: 'Dashboard',
+                    requireAuth: true
                 },
-                beforeEnter: setTitle,
-
                 component: () => import(/* webpackChunkName: "home" */ '../views/index.vue'),
 
             },
             {
                 path: 'admin/profile',
-                name: 'Profile',
+                name: 'admin.profile',
                 meta: {
                     title: 'Profile'
                 },
@@ -36,7 +36,7 @@ const routes = [
             },
             {
                 path: 'admin/chat',
-                name: 'Messenger',
+                name: 'admin.chat',
                 meta: {
                     title: 'Messenger'
                 },
@@ -46,8 +46,17 @@ const routes = [
     },
 ];
 
-function setTitle(to) {
-    document.title = to.meta.title ? to.meta.title + ' | ' + import.meta.env.VITE_APP_NAME : import.meta.env.VITE_APP_NAME ?? "cms"
+function setTitle(title) {
+    document.title = title ? title + ' | ' + import.meta.env.VITE_APP_NAME : import.meta.env.VITE_APP_NAME ?? "cms"
+}
+
+
+const token = () => {
+    return localStorage.getItem("token") ?? '';
+};
+
+const clearToken = () => {
+    localStorage.removeItem("token");
 }
 
 export const router = createRouter({
@@ -55,3 +64,28 @@ export const router = createRouter({
     routes
 })
 
+router.beforeEach((to, from, next) => {
+    if (to.meta.title) {
+        setTitle(to.meta.title)
+    }
+    if (to.meta.requireAuth) {
+        console.log("ok")
+        if (token) {
+            axios.get('/api/admin/me', {
+                headers: {
+                    Authorization: `Bearer ${token()}`
+                }
+            }).then(res => {
+                next();
+            }).catch(err => {
+                if (err.response.status === 401) {
+                    clearToken();
+                    next({name: 'admin.login'});
+                }
+            })
+        }
+    } else {
+        next();
+    }
+
+})
