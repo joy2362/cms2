@@ -1,5 +1,5 @@
 const crud = {
-    install(app , options){
+    install(app){
         app.config.globalProperties.$post = async (url, payload) => {
             let response = {
                  'data' : {},

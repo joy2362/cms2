@@ -1,5 +1,5 @@
 const toaster = {
-    install(app, options) {
+    install(app) {
         app.config.globalProperties.$success = (message, position = 'bottom-right', duration = 4000) => {
             app.$toast.success(message, {
                 position: position,
