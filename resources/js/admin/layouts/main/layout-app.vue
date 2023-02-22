@@ -2,16 +2,16 @@
   <div>
     <v-navigation-drawer v-model="drawer" temporary color="primary">
       <v-list-item
-        prepend-avatar="https://randomuser.me/api/portraits/men/78.jpg"
-        title="John Leider"
+          prepend-avatar="https://randomuser.me/api/portraits/men/78.jpg"
+          title="John Leider"
       >
         <template v-slot:append>
           <v-menu>
             <template v-slot:activator="{ props }">
               <v-btn
-                variant="text"
-                icon="mdi-chevron-right"
-                v-bind="props"
+                  variant="text"
+                  icon="mdi-chevron-right"
+                  v-bind="props"
               ></v-btn>
             </template>
 
@@ -37,7 +37,7 @@
                 </v-list-item-title>
               </v-list-item>
 
-              <v-list-item>
+              <v-list-item @click="logout">
                 <v-list-item-title>
                   <v-icon color="red">mdi-power</v-icon>
                   <span class="text-red">Logout</span>
@@ -52,28 +52,28 @@
 
       <v-list density="compact" nav v-for="(item, i) in menu" :key="i">
         <v-list-item
-          :prepend-icon="item.icon"
-          :title="item.title"
-          :to="item.url"
-          v-if="!item.submenu"
+            :prepend-icon="item.icon"
+            :title="item.title"
+            :to="item.url"
+            v-if="!item.submenu"
         ></v-list-item>
 
         <v-list-group v-else :key="i">
           <template v-slot:activator="{ props }">
             <v-list-item
-              v-bind="props"
-              :prepend-icon="item.icon"
-              :title="item.title"
+                v-bind="props"
+                :prepend-icon="item.icon"
+                :title="item.title"
             ></v-list-item>
           </template>
 
           <v-list-item
-            class="item_menu"
-            v-for="(sub, idx) in item.submenu"
-            :key="idx"
-            :title="sub.title"
-            :prepend-icon="sub.icon"
-            :to="sub.url"
+              class="item_menu"
+              v-for="(sub, idx) in item.submenu"
+              :key="idx"
+              :title="sub.title"
+              :prepend-icon="sub.icon"
+              :to="sub.url"
           ></v-list-item>
         </v-list-group>
       </v-list>
@@ -102,57 +102,74 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import { useAuthStore } from '../../stores/auth'
+
 export default {
-  data() {
+  data () {
     return {
       drawer: null,
       menu: [
         {
-          title: "Dashboard",
-          icon: "mdi-view-dashboard",
-          url: "/admin/dashboard",
+          title: 'Dashboard',
+          icon: 'mdi-view-dashboard',
+          url: '/admin/dashboard',
         },
       ],
-      icon: "",
+      icon: '',
       is_night: null,
-    };
+    }
   },
-  mounted() {
-    this.getIcon();
+  mounted () {
+    this.getIcon()
   },
   methods: {
-    onClick() {
-      this.$emit("tema");
-      this.is_night = !this.is_night;
+    ...mapActions(useAuthStore, { logoutFromState: 'removeToken' }),
+
+    onClick () {
+      this.$emit('tema')
+      this.is_night = !this.is_night
       if (this.is_night === true) {
-        this.icon = "mdi mdi-weather-night";
+        this.icon = 'mdi mdi-weather-night'
       } else {
-        this.icon = "mdi mdi-weather-sunny";
+        this.icon = 'mdi mdi-weather-sunny'
       }
-      localStorage.setItem("icon", this.icon);
+      localStorage.setItem('icon', this.icon)
     },
 
-    toProfile() {
-      this.$router.push("/profile");
+    toProfile () {
+      this.$router.push('/admin/profile')
     },
 
-    getIcon() {
-      if (localStorage.getItem("theme") === "dark") {
-        this.is_night = true;
-        this.icon = "mdi mdi-weather-sunny";
+    getIcon () {
+      if (localStorage.getItem('theme') === 'dark') {
+        this.is_night = true
+        this.icon = 'mdi mdi-weather-sunny'
       } else {
-        this.is_night = false;
-        this.icon = "mdi mdi-weather-night";
+        this.is_night = false
+        this.icon = 'mdi mdi-weather-night'
       }
     },
+
+    async logout () {
+      const res = await this.$post('/api/admin/logout')
+      if (res.data?.success) {
+        this.$success(res.data.message)
+        this.logoutFromState()
+        this.$router.push('/admin/login')
+      }
+      if (res.errors?.error) {
+        this.$error(res.errors?.error)
+      }
+    }
   },
-};
+}
 </script>
 
 <style scoped>
 .list {
   cursor: pointer;
-    background: red;
+  background: red;
 }
 
 .item_menu {

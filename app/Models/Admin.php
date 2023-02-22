@@ -15,6 +15,8 @@ class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable ;
 
+    const GUARD = 'admin';
+
     /**
      * The attributes that are mass assignable.
      *
