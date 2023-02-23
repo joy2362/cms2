@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" temporary color="primary">
+    <v-navigation-drawer permanent v-model="drawer">
       <v-list-item
           prepend-avatar="https://randomuser.me/api/portraits/men/78.jpg"
           title="John Leider"
@@ -84,11 +84,47 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
       <template v-slot:append>
-        <v-btn class="text-none" stacked>
-          <v-badge content="9+" color="error">
-            <v-icon>mdi-bell</v-icon>
-          </v-badge>
-        </v-btn>
+
+        <!--        notification     -->
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn class="text-none" stacked v-bind="props">
+              <v-badge content="9+" color="error">
+                <v-icon>mdi-bell</v-icon>
+              </v-badge>
+            </v-btn>
+          </template>
+          <v-card min-width="300">
+            <v-list>
+              <v-list-subheader>Notification</v-list-subheader>
+              <v-list-item
+                  v-for="(item, i) in notification"
+                  :key="i"
+                  :title="item.title"
+                  :subtitle="item.description"
+              >
+                <template v-slot:prepend>
+                  <v-avatar>
+                    <v-img
+                        :src="item.avatar"
+                        alt="John"
+                    ></v-img>
+                  </v-avatar>
+                </template>
+              </v-list-item>
+            </v-list>
+            <v-card-actions>
+
+              <v-btn
+                  color="primary"
+                  variant="text"
+                  @click="menu = false"
+              >
+                Mark as read
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
 
         <v-btn class="text-none" stacked>
           <v-badge content="9+" color="error">
@@ -115,9 +151,36 @@ export default {
           icon: 'mdi-view-dashboard',
           url: '/admin/dashboard',
         },
+        {
+          title: 'Profile',
+          icon: 'mdi-view-dashboard',
+          url: '/admin/profile',
+        },
+        {
+          title: 'Message',
+          icon: 'mdi-view-dashboard',
+          url: '/admin/chat',
+        },
       ],
       icon: '',
       is_night: null,
+      notification: [
+        {
+          title: 'abdullah zahid',
+          description: 'Create a new category',
+          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg'
+        },
+        {
+          title: 'abdullah zahid',
+          description: 'update a new category',
+          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg'
+        },
+        {
+          title: 'abdullah zahid',
+          description: 'delete a new category',
+          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg'
+        }
+      ],
     }
   },
   mounted () {

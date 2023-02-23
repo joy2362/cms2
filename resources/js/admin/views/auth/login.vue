@@ -94,7 +94,6 @@ export default {
       formData.append('password', this.form.password)
 
       const res = await this.$postWithOutToken('/api/admin/login', formData)
-      console.log(res)
       if (res.data?.success) {
         this.authToken(res.data.token)
         this.$success(res.data.message)
@@ -117,10 +116,6 @@ export default {
 </script>
 
 <style scoped>
-.mb {
-  margin-bottom: 60px;
-}
-
 .main-bg {
   display: flex;
   justify-content: center;
@@ -128,12 +123,9 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgb(227, 227, 221);
-  padding: 120px 0px;
+  padding: 120px 0;
 }
 
-.margin {
-  margin-top: 29%;
-}
 
 .card-login {
   width: 600px;
@@ -167,9 +159,5 @@ export default {
   align-items: center;
   margin-top: 50px;
   margin-bottom: 35px;
-}
-
-.btn-vendor {
-  margin-left: 10px;
 }
 </style>
