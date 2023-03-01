@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="4">
-    <v-card-title>Activities</v-card-title>
+    <v-card-title>General</v-card-title>
     <v-container>
         <v-timeline side="end" density="compact">
             <v-timeline-item dot-color="primary">
@@ -45,6 +45,7 @@
 
 <script>
 export default {
+  name: "ProfileUpdate"
 
 }
 </script>

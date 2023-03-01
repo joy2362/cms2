@@ -1,20 +1,27 @@
 <?php
 
+use App\Http\Controllers\Backend\{Auth\AdminAuthController, Auth\LoginController, Auth\ProfileController};
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\backend\{
-    AdminAuthController,
-    AdminLoginController
-};
 
 
 /*
  * Admin authentication related route
  *
  * */
-Route::post('/login', AdminLoginController::class);
+Route::post('/login', LoginController::class);
+
+
 Route::middleware('auth:sanctum')
-    ->controller(AdminAuthController::class)
     ->group(function () {
-    Route::get('/me', 'me');
-    Route::post('/logout', 'logout');
-});
+
+        //auth related route
+        Route::controller(AdminAuthController::class)->group(function () {
+            Route::get('/me', 'me');
+            Route::post('/logout', 'logout');
+        });
+
+        //profile related route
+        Route::controller(ProfileController::class)->group(function () {
+            Route::get('/profile', 'profile');
+        });
+    });

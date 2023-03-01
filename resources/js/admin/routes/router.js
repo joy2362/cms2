@@ -8,7 +8,7 @@ const routes = [
       title: 'Login',
       redirectIfAuthenticated: true,
     },
-    component: () => import(/* webpackChunkName: "login" */'../views/auth/login.vue'),
+    component: () => import(/* webpackChunkName: "admin.login" */'../views/auth/login.vue'),
   },
   {
 
@@ -23,7 +23,7 @@ const routes = [
           title: 'Dashboard',
           requireAuth: true
         },
-        component: () => import(/* webpackChunkName: "home" */ '../views/index.vue'),
+        component: () => import(/* webpackChunkName: "admin.dashboard" */ '../views/index.vue'),
 
       },
       {
@@ -33,7 +33,7 @@ const routes = [
           title: 'Profile',
           requireAuth: true
         },
-        component: () => import(/* webpackChunkName: "Profile" */'../views/user/admin/profile.vue')
+        component: () => import(/* webpackChunkName: "admin.Profile" */'../views/profile/index.vue')
       },
       {
         path: 'admin/chat',
@@ -74,7 +74,7 @@ router.beforeEach((to, from, next) => {
         headers: {
           Authorization: `Bearer ${token()}`
         }
-      }).then(res => {
+      }).then(() => {
         next()
       }).catch(err => {
         if (err.response.status === 401) {
@@ -82,7 +82,7 @@ router.beforeEach((to, from, next) => {
           next({ name: 'admin.login' })
         }
       })
-    }else {
+    } else {
       next({ name: 'admin.login' })
     }
   } else if (to.meta.redirectIfAuthenticated) {

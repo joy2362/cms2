@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="4">
-    <v-card-title>User Data</v-card-title>
+    <v-card-title>Password</v-card-title>
     <v-container>
         <v-timeline side="end" density="compact">
             <v-timeline-item dot-color="primary">

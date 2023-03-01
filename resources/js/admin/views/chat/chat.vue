@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import titlebarComponent from '../../components/titlebar/titlebar-component.vue';
+import titlebarComponent from '../../components/titlebar/TitleBarSection.vue';
 import chatBox from '../../components/chat-box/chatBox.vue';
 import chatList from '../../components/chat-box/chatList.vue';
 

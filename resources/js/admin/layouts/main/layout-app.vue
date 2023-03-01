@@ -2,8 +2,8 @@
   <div>
     <v-navigation-drawer permanent v-model="drawer">
       <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/men/78.jpg"
-          title="John Leider"
+          :prepend-avatar="profile.avatar"
+          :title="profile.name"
       >
         <template v-slot:append>
           <v-menu>
@@ -138,13 +138,14 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
+import { useProfileStore } from '../../stores/profile'
 
 export default {
   data () {
     return {
-      drawer: null,
+      drawer: false,
       menu: [
         {
           title: 'Dashboard',
@@ -163,7 +164,7 @@ export default {
         },
       ],
       icon: '',
-      is_night: null,
+      is_night: true,
       notification: [
         {
           title: 'abdullah zahid',
@@ -185,9 +186,14 @@ export default {
   },
   mounted () {
     this.getIcon()
+    this.setProfile()
+  },
+  computed: {
+    ...mapState(useProfileStore, { profile: 'getProfile' })
   },
   methods: {
     ...mapActions(useAuthStore, { logoutFromState: 'removeToken' }),
+    ...mapActions(useProfileStore, { setProfile: 'setProfile' }),
 
     onClick () {
       this.$emit('tema')

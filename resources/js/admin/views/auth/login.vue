@@ -122,10 +122,8 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgb(227, 227, 221);
   padding: 120px 0;
 }
-
 
 .card-login {
   width: 600px;

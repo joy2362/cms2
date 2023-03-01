@@ -1,5 +1,8 @@
 <template>
     <v-breadcrumbs :items="routes">
+      <template v-slot:title="{ item }">
+        {{ item.title.toUpperCase() }}
+      </template>
       <template v-slot:divider>
         <v-icon icon="mdi-chevron-right"></v-icon>
       </template>
@@ -8,7 +11,8 @@
 
 <script>
 export default {
-  props: ["title", "routes"],
+  name: 'TitleBarSection',
+  props: ["routes"],
 };
 </script>
 
