@@ -11,6 +11,8 @@ import { createPinia } from 'pinia'
 import { loadFonts } from './webfontloader'
 import Toaster from '@meforma/vue-toaster'
 import { useGlobalStore } from '../stores/global'
+import { useAuthStore } from '../stores/auth'
+import { useProfileStore } from '../stores/profile'
 
 const pinia = createPinia()
 
@@ -21,5 +23,7 @@ export function registerPlugins (app) {
     .use(pinia)
     .use(router)
     .use(Toaster)
-    useGlobalStore();
+  useGlobalStore()
+  useAuthStore()
+  useProfileStore()
 }
