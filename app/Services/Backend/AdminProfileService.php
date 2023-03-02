@@ -56,7 +56,7 @@ class AdminProfileService
      */
     private function changePassword($id, $password): void
     {
-        Admin::find($id)->updated([
+        Admin::find($id)->update([
             'password' => Hash::make($password)
         ]);
     }
