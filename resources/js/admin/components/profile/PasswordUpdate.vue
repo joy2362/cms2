@@ -2,7 +2,7 @@
   <v-card elevation="4">
     <v-card-title>Password</v-card-title>
     <v-container>
-      <v-form @submit.prevent>
+      <v-form @submit.prevent="submit">
         <v-text-field
             label="Old password"
             v-model="oldPassword"
@@ -59,6 +59,12 @@ export default {
       confirmPassword: 'confirmPassword'
     })
   },
+
+  methods:{
+    submit(){
+      console.log("ok")
+    }
+  }
 
 }
 </script>

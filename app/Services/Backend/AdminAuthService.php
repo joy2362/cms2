@@ -2,54 +2,97 @@
 
 namespace App\Services\Backend;
 
-use App\Http\Requests\AdminLoginRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Handle admin auth
+ */
 class AdminAuthService
 {
-    public function login(AdminLoginRequest $request)
+    /**
+     * @param $request
+     * @return Collection
+     */
+    public function login($request): Collection
     {
-        $response = new Collection();
-        if (!Auth::guard(Admin::GUARD)->attempt($request->validated())) {
-            $response->put('success', false);
-            $response->put('error', trans('auth.failed'));
-            $response->put('status', Response::HTTP_UNPROCESSABLE_ENTITY);
-        } else {
-            $response->put('success', true);
-            $response->put('message', trans('auth.success'));
-            $response->put('token', $this->getToken($request->validated()['email']));
-            $response->put('status', Response::HTTP_OK);
-        }
-
-        return $response;
+        return Auth::guard(Admin::GUARD)->attempt($request->validated()) ? $this->loginSuccess(
+            $request->input('email')
+        ) : $this->loginFailed();
     }
 
-    public function logout(Request $request)
+    /**
+     * @param Request $request
+     * @return Collection
+     */
+    public function logout(Request $request): Collection
     {
-        $response = new Collection();
-
-        if ($request->user()) {
-            $request->user()->currentAccessToken()->delete();
-            $response->put('success', true);
-            $response->put('message', trans('auth.logout'));
-            $response->put('status', Response::HTTP_OK);
-        } else {
-            $response->put('success', false);
-            $response->put('error', trans('auth.Unauthenticated'));
-            $response->put('status', Response::HTTP_UNAUTHORIZED);
-        }
-
-        return $response;
+        return $request->user()->currentAccessToken()->delete() ?
+            $this->logoutSuccess() : $this->logoutFailed();
     }
 
-    private function getToken($email)
+    /**
+     * @param $email
+     * @return mixed
+     */
+    private function getToken($email): mixed
     {
         $admin = Admin::where('email', $email)->first();
         return $admin->createToken('token', ['role:admin'])->plainTextToken;
+    }
+
+    /**
+     * @return Collection
+     */
+    private function logoutFailed(): Collection
+    {
+        return new Collection([
+            'success' => false,
+            'error' => trans('auth.Unauthenticated'),
+            'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+        ]);
+    }
+
+    /**
+     * @return Collection
+     */
+    private function logoutSuccess(): Collection
+    {
+        return new Collection([
+            'success' => true,
+            'message' => trans('auth.logout'),
+            'status' => Response::HTTP_OK,
+        ]);
+    }
+
+
+    /**
+     * @return Collection
+     */
+    private function loginFailed(): Collection
+    {
+        return new Collection([
+            'success' => false,
+            'error' => trans('auth.failed'),
+            'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+        ]);
+    }
+
+    /**
+     * @param $email
+     * @return Collection
+     */
+    private function loginSuccess($email): Collection
+    {
+        return new Collection([
+            'success' => true,
+            'message' => trans('auth.success'),
+            'token' => $this->getToken($email),
+            'status' => Response::HTTP_OK,
+        ]);
     }
 
 }

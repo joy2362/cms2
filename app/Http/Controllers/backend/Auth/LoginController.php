@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminLoginRequest;
+use App\Http\Requests\Backend\AdminLoginRequest;
 use App\Services\Backend\AdminAuthService;
 use Illuminate\Http\JsonResponse;
 
@@ -15,7 +15,7 @@ class LoginController extends Controller
      * @param AdminLoginRequest $request
      * @return JsonResponse
      */
-    public function __invoke(AdminLoginRequest $request)
+    public function __invoke(AdminLoginRequest $request): JsonResponse
     {
         try {
             $response = (new AdminAuthService())->login($request);

@@ -21,7 +21,8 @@ Route::middleware('auth:sanctum')
         });
 
         //profile related route
-        Route::controller(ProfileController::class)->group(function () {
-            Route::get('/profile', 'profile');
+        Route::controller(ProfileController::class)->prefix('profile')->group(function () {
+            Route::get('/', 'profile');
+            Route::post('/password', 'changePassword');
         });
     });
