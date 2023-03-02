@@ -11,62 +11,31 @@
         </v-col>
       </v-row>
       <div class="d-flex justify-center">
-        <v-dialog
-            v-model="showProfileUpdate"
-            persistent
-            width="1024"
-        >
-          <template v-slot:activator="{ props }">
-
-            <v-btn append-icon="mdi mdi-image-sync" v-bind="props">Profile picture</v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">Profile Picture</span>
-            </v-card-title>
-            <v-card-text>
-              <v-container>
-                <v-file-input label="Avatar" @input="onSelect" :clearable="false"></v-file-input>
-              </v-container>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                  color="blue-darken-1"
-                  variant="text"
-                  @click="showProfileUpdate = false"
-              >
-                Close
-              </v-btn>
-              <v-btn
-                  color="blue-darken-1"
-                  variant="text"
-                  @click="showProfileUpdate = false"
-              >
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <v-btn append-icon="mdi mdi-image-sync" @click="showProfileUpdate">Profile picture</v-btn>
+        <ChangeAvatar></ChangeAvatar>
       </div>
     </v-container>
   </v-card>
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia'
+import { useGlobalStore } from '../../stores/global'
+import { useProfileStore } from '../../stores/profile'
+import ChangeAvatar from './assets/ChangeAvatar.vue'
 export default {
   name: 'ProfileBanner',
-  props:['profile'],
+  components: { ChangeAvatar },
   data () {
-    return {
-      showProfileUpdate: false,
-    }
+    return {}
+  },
+  computed: {
+    ...mapState(useProfileStore, { profile: 'profile' })
   },
   methods: {
-    onSelect (event) {
-      this.$emit("onChangeAvatar", event.target.files[0])
-
-     // this.avatar = event.target.files[0];
+    ...mapActions(useGlobalStore, {setShowChangeAvatar:'setShowChangeAvatar'}),
+    showProfileUpdate(){
+      this.setShowChangeAvatar(true);
     }
   },
 }

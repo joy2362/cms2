@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <TitleBarSection :routes="routes"></TitleBarSection>
-      <ProfileBanner class="mb" :profile="profile" @onChangeAvatar="onChangeAvatar"></ProfileBanner>
+      <ProfileBanner class="mb"></ProfileBanner>
       <v-row>
         <v-col lg="6" sm="12">
           <ProfileUpdate></ProfileUpdate>
@@ -24,9 +24,6 @@ import ProfileBanner from '../../components/profile/ProfileBanner.vue'
 import ProfileUpdate from '../../components/profile/ProfileUpdate.vue'
 import PasswordUpdate from '../../components/profile/PasswordUpdate.vue'
 import FooterSection from '../../components/footer/FooterSection.vue'
-import { mapActions, mapState } from 'pinia'
-import { useProfileStore } from '../../stores/profile'
-
 export default {
   name:'AdminProfile',
   components: {
@@ -36,9 +33,7 @@ export default {
     PasswordUpdate,
     FooterSection
   },
-  computed: {
-    ...mapState(useProfileStore, { profile: 'getProfile' })
-  },
+
   data: () => ({
     routes: [
       {
@@ -54,10 +49,6 @@ export default {
     ],
   }),
   methods:{
-    ...mapActions(useProfileStore, {setAvatar:'setAvatar'}),
-    onChangeAvatar (file) {
-      this.setAvatar(file);
-    }
   }
 
 }

@@ -1,6 +1,6 @@
-import './adminBootstrap';
-import { createApp } from 'vue';
-import App from './Admin.vue';
+import './adminBootstrap'
+import { createApp } from 'vue'
+import App from './Admin.vue'
 
 // Plugins
 import { registerPlugins } from './admin/plugins'
@@ -10,6 +10,7 @@ const app = createApp(App)
 
 app.config.globalProperties.asset = import.meta.env.VITE_APP_URL
 
-app.use(registerPlugins);
-app.use(registerHelper);
-app.mount("#app");
+app.use(registerPlugins)
+app.use(registerHelper)
+
+app.mount('#app')
