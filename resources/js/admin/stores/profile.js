@@ -15,6 +15,12 @@ export const useProfileStore = defineStore('profile', {
   getters: {
     getProfile (state) {
       return state.profile
+    },
+    getGeneralProfile (state) {
+      return {
+        name: state.name,
+        email: state.email,
+      }
     }
   },
   actions: {
@@ -26,11 +32,13 @@ export const useProfileStore = defineStore('profile', {
         }
       }
       axios.get('/api/admin/profile', config).then(res => {
-        this.profile = res.data.profile ?? []
+        this.profile = res.data.profile ?? [];
+        this.name = res.data.profile.name ?? '';
+        this.email = res.data.profile.email ?? '';
       })
     },
-    setAvatar(payload){
-      this.avatar = payload;
+    setAvatar (payload) {
+      this.avatar = payload
     },
   }
 })

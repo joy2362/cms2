@@ -2,51 +2,30 @@
   <v-card elevation="4">
     <v-card-title>General</v-card-title>
     <v-container>
-        <v-timeline side="end" density="compact">
-            <v-timeline-item dot-color="primary">
-                <template v-slot:opposite>
-                    Opposite content
-                </template>
-                <div>
-                    <div class="text-h6">Content title</div>
-                    <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </v-timeline-item>
+      <v-form @submit.prevent>
+        <v-text-field
+            v-model="name"
+            label="Name"
+        ></v-text-field>
+        <v-text-field
+            v-model="email"
+            label="email"
+        ></v-text-field>
 
-            <v-timeline-item dot-color="success">
-                <template v-slot:opposite>
-                    Opposite content
-                </template>
-                <div>
-                    <div class="text-h6">Content title</div>
-                    <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </v-timeline-item>
-
-            <v-timeline-item dot-color="info">
-                <template v-slot:opposite>
-                    Opposite content
-                </template>
-                <div>
-                    <div class="text-h6">Content title</div>
-                    <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                </div>
-            </v-timeline-item>
-        </v-timeline>
+        <v-btn type="submit" color="success" class="mt-2">Submit</v-btn>
+      </v-form>
     </v-container>
   </v-card>
 </template>
 
 <script>
+import { mapWritableState } from 'pinia'
+import { useProfileStore } from '../../stores/profile'
 export default {
-  name: "ProfileUpdate"
-
+  name: "ProfileUpdate",
+  computed: {
+    ...mapWritableState(useProfileStore, { name: 'name' , email: 'email' })
+  },
 }
 </script>
 
