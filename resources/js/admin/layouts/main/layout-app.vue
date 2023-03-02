@@ -221,7 +221,7 @@ export default {
     },
 
     async logout () {
-      const res = await this.$post('/api/admin/logout')
+      const res = await this.$post('logout')
       if (res.data?.success) {
         this.$success(res.data.message)
         this.logoutFromState()

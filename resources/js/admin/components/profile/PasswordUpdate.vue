@@ -40,8 +40,8 @@
 <script>
 import { mapWritableState, mapState, mapActions } from 'pinia'
 import { useProfileStore } from '../../stores/profile'
+import { submit } from './js/PasswordUpdate'
 
-const url = 'profile/password'
 export default {
   name: 'PasswordUpdate',
   data () {
@@ -51,6 +51,7 @@ export default {
       showConfirmPassword: false,
       errors: [],
       loading: false,
+      url: 'profile/password'
     }
   },
   computed: {
@@ -66,18 +67,7 @@ export default {
     ...mapActions(useProfileStore, { resetPasswordForm: 'resetPasswordForm' }),
 
     async submit () {
-      const res = await this.$post(url, this.getPasswordForm)
-      if (res.data?.success) {
-        this.$success(res.data.message)
-        this.resetPasswordForm()
-        this.errors = []
-      }
-      if (res.errors?.error) {
-        this.$error(res.errors?.error)
-      }
-      if (res.errors?.errors) {
-        this.errors = res.errors?.errors
-      }
+      await submit(this)
     }
   }
 

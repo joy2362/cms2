@@ -13,16 +13,18 @@ const crud = {
       return response
     }
     app.config.globalProperties.$post = async (url, payload = []) => {
-      const token = localStorage.getItem('token')
-      axios.defaults.baseURL = '/api/admin'
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-
+      const baseURL = '/api/admin/';
       let response = {
         'data': {},
         'errors': {},
       }
-
-      await axios.post(url, payload).then(res => {
+      const token = localStorage.getItem('token')
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+      await axios.post(baseURL + url, payload, config).then(res => {
         response.data = res.data
       }).catch(err => {
         response.errors = err.response.data
