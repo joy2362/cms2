@@ -93,7 +93,7 @@ export default {
       formData.append('email', this.form.email)
       formData.append('password', this.form.password)
 
-      const res = await this.$postWithOutToken('/login', formData)
+      const res = await this.$postWithOutToken('/api/admin/login', formData)
       if (res.data?.success) {
         this.authToken(res.data.token)
         this.$success(res.data.message)
