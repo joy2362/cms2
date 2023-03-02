@@ -38,9 +38,10 @@
 </template>
 
 <script>
-import { mapWritableState } from 'pinia'
+import { mapWritableState, mapState, mapActions } from 'pinia'
 import { useProfileStore } from '../../stores/profile'
 
+const url = 'profile/password'
 export default {
   name: 'PasswordUpdate',
   data () {
@@ -57,12 +58,26 @@ export default {
       oldPassword: 'oldPassword',
       newPassword: 'newPassword',
       confirmPassword: 'confirmPassword'
-    })
+    }),
+    ...mapState(useProfileStore, { getPasswordForm: 'getPasswordForm' })
   },
 
-  methods:{
-    submit(){
-      console.log("ok")
+  methods: {
+    ...mapActions(useProfileStore, { resetPasswordForm: 'resetPasswordForm' }),
+
+    async submit () {
+      const res = await this.$post(url, this.getPasswordForm)
+      if (res.data?.success) {
+        this.$success(res.data.message)
+        this.resetPasswordForm()
+        this.errors = []
+      }
+      if (res.errors?.error) {
+        this.$error(res.errors?.error)
+      }
+      if (res.errors?.errors) {
+        this.errors = res.errors?.errors
+      }
     }
   }
 
