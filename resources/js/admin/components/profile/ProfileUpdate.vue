@@ -12,7 +12,7 @@
             label="email"
         ></v-text-field>
 
-        <v-btn type="submit" color="success" class="mt-2">Submit</v-btn>
+        <v-btn type="submit" color="success" class="mt-2">Update</v-btn>
       </v-form>
     </v-container>
   </v-card>
@@ -21,10 +21,11 @@
 <script>
 import { mapWritableState } from 'pinia'
 import { useProfileStore } from '../../stores/profile'
+
 export default {
-  name: "ProfileUpdate",
+  name: 'ProfileUpdate',
   computed: {
-    ...mapWritableState(useProfileStore, { name: 'name' , email: 'email' })
+    ...mapWritableState(useProfileStore, { name: 'name', email: 'email' })
   },
 }
 </script>
