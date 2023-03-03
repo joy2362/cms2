@@ -1,5 +1,6 @@
 <template>
   <div>
+    <GlobalLoading/>
     <v-container>
       <TitleBarSection :routes="routes"></TitleBarSection>
       <ProfileBanner class="mb"></ProfileBanner>

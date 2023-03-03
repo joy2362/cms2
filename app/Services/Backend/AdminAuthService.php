@@ -4,8 +4,7 @@ namespace App\Services\Backend;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\{Collection, Facades\Auth};
 use Symfony\Component\HttpFoundation\Response;
 
 /**

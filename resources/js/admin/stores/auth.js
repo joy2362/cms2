@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token')
     },
     setErrors (payload = []) {
-      this.error = payload
+      this.errors = payload
     },
     clearLogin () {
       this.login = {

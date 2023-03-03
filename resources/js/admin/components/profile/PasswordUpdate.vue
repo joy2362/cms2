@@ -5,30 +5,30 @@
       <v-form @submit.prevent="submit">
         <v-text-field
             label="Old password"
-            v-model="oldPassword"
-            :append-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showOldPassword = !showOldPassword"
-            :type="showOldPassword ? 'text' : 'password'"
-            :error="!!errors.oldPassword"
-            :error-messages="errors.oldPassword"
+            v-model="password.oldPassword"
+            :append-icon="password.showOldPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :error="!!passwordErrors.oldPassword"
+            :error-messages="passwordErrors.oldPassword"
+            :type="password.showOldPassword ? 'text' : 'password'"
+            @click:append="password.showOldPassword = !password.showOldPassword"
         ></v-text-field>
         <v-text-field
             label="Password"
-            v-model="newPassword"
-            :append-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showNewPassword = !showNewPassword"
-            :type="showNewPassword ? 'text' : 'password'"
-            :error="!!errors.newPassword"
-            :error-messages="errors.newPassword"
+            v-model="password.newPassword"
+            :append-icon="password.showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :error="!!passwordErrors.newPassword"
+            :error-messages="passwordErrors.newPassword"
+            :type="password.showNewPassword ? 'text' : 'password'"
+            @click:append="password.showNewPassword = !password.showNewPassword"
         ></v-text-field>
         <v-text-field
             label="Confirm password"
-            v-model="confirmPassword"
-            :append-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showConfirmPassword = !showConfirmPassword"
-            :type="showConfirmPassword ? 'text' : 'password'"
-            :error="!!errors.confirmPassword"
-            :error-messages="errors.confirmPassword"
+            v-model="password.confirmPassword"
+            :append-icon="password.showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :error="!!passwordErrors.confirmPassword"
+            :error-messages="passwordErrors.confirmPassword"
+            :type="password.showConfirmPassword ? 'text' : 'password'"
+            @click:append="password.showConfirmPassword = !password.showConfirmPassword"
         ></v-text-field>
 
         <v-btn type="submit" color="success" class="mt-2">Change</v-btn>
@@ -40,34 +40,24 @@
 <script>
 import { mapWritableState, mapState, mapActions } from 'pinia'
 import { useProfileStore } from '../../stores/profile'
-import { submit } from './js/profile'
+import { useGlobalStore } from '../../stores/global'
+import { passwordUpdate } from './js/profile'
 
 export default {
   name: 'PasswordUpdate',
-  data () {
-    return {
-      showOldPassword: false,
-      showNewPassword: false,
-      showConfirmPassword: false,
-      errors: [],
-      loading: false,
-      url: 'profile/password'
-    }
-  },
   computed: {
     ...mapWritableState(useProfileStore, {
-      oldPassword: 'oldPassword',
-      newPassword: 'newPassword',
-      confirmPassword: 'confirmPassword'
+      password: 'password', passwordErrors: 'passwordErrors'
     }),
-    ...mapState(useProfileStore, { getPasswordForm: 'getPasswordForm' })
+    ...mapState(useProfileStore, { getPasswordForm: 'getPasswordForm', getPasswordUpdateUrl: 'getPasswordUpdateUrl' })
   },
 
   methods: {
+    ...mapActions(useGlobalStore, { setGlobalLoading: 'setGlobalLoading' }),
     ...mapActions(useProfileStore, { resetPasswordForm: 'resetPasswordForm' }),
 
     async submit () {
-      await submit(this)
+      await passwordUpdate(this)
     }
   }
 

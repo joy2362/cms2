@@ -26,9 +26,6 @@ import ChangeAvatar from './assets/ChangeAvatar.vue'
 export default {
   name: 'ProfileBanner',
   components: { ChangeAvatar },
-  data () {
-    return {}
-  },
   computed: {
     ...mapState(useProfileStore, { profile: 'profile' })
   },

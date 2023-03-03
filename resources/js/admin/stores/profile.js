@@ -4,12 +4,23 @@ export const useProfileStore = defineStore('profile', {
   state: () => {
     return {
       profile: [],
+      general: {
+        name: '',
+        email: '',
+      },
       avatar: '',
-      name: '',
-      email: '',
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: '',
+      password: {
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+        showOldPassword: false,
+        showNewPassword: false,
+        showConfirmPassword: false,
+      },
+      passwordErrors: [],
+      generalErrors: [],
+      passwordUpdateUrl: 'profile/password',
+      generalUpdateUrl: 'profile/general',
     }
   },
   getters: {
@@ -17,17 +28,26 @@ export const useProfileStore = defineStore('profile', {
       return state.profile
     },
     getGeneralProfile (state) {
-      return {
-        name: state.name,
-        email: state.email,
-      }
+      return state.general
     },
     getPasswordForm (state) {
       return {
-        oldPassword: state.oldPassword,
-        newPassword: state.newPassword,
-        confirmPassword: state.confirmPassword,
+        oldPassword: state.password.oldPassword,
+        newPassword: state.password.newPassword,
+        confirmPassword: state.password.confirmPassword,
       }
+    },
+    getPasswordErrors (state) {
+      return state.passwordErrors
+    },
+    getPasswordUpdateUrl (state) {
+      return state.passwordUpdateUrl
+    },
+    getGeneralErrors (state) {
+      return state.generalErrors
+    },
+    getGeneralUpdateUrl (state) {
+      return state.generalUpdateUrl
     }
   },
   actions: {
@@ -40,8 +60,11 @@ export const useProfileStore = defineStore('profile', {
       }
       axios.get('/api/admin/profile', config).then(res => {
         this.profile = res.data.profile ?? []
-        this.name = res.data.profile.name ?? ''
-        this.email = res.data.profile.email ?? ''
+        this.general = {
+          name: res.data.profile.name ?? '',
+          email: res.data.profile.email ?? ''
+        }
+
       })
     },
     setAvatar (payload) {
@@ -49,9 +72,19 @@ export const useProfileStore = defineStore('profile', {
     },
 
     resetPasswordForm () {
-      this.oldPassword = ''
-      this.newPassword = ''
-      this.confirmPassword = ''
-    }
+      this.password = {
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+        showOldPassword: false,
+        showNewPassword: false,
+        showConfirmPassword: false,
+      }
+      this.passwordErrors = []
+    },
+
+    resetGeneralForm () {
+      this.generalErrors = []
+    },
   }
 })
