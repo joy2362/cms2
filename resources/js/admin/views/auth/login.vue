@@ -1,22 +1,18 @@
 <template>
   <v-app :theme="theme">
+    <GlobalLoading/>
     <div class="main-bg">
+
       <v-card
           elevation="2"
           class="card-login"
       >
         <v-card-title class="d-flex justify-center">
-          <div v-if="theme === 'light'">
-            <img :src="logo" class="login-logo" alt="Logo">
-          </div>
-          <div v-else>
-            <img :src="logo" class="login-logo" alt="Logo">
-          </div>
+          <img :src="getLogo" class="login-logo" alt="Logo">
         </v-card-title>
 
         <v-form
-            ref="form"
-            lazy-validation
+            @submit.prevent="submit"
             class="form-width"
         >
 
@@ -26,10 +22,11 @@
                 density="compact"
                 variant="underlined"
                 color="primary"
-                v-model="form.email"
+                v-model="login.email"
                 type="email"
                 :error="!!errors.email"
                 :error-messages="errors.email"
+                @keydown.enter="submit()"
             ></v-text-field>
 
             <v-text-field
@@ -37,24 +34,20 @@
                 variant="underlined"
                 color="primary"
                 label="Password"
-                v-model="form.password"
+                v-model="login.password"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="showPass = !showPass"
                 :type="showPass ? 'text' : 'password'"
                 :error="!!errors.password"
                 :error-messages="errors.password"
+                @keydown.enter="submit()"
             ></v-text-field>
           </div>
-
-
           <div class="login-button">
             <v-btn
+                type="submit"
                 class="ma-2"
                 color="primary"
-                @click="login"
-                @keyup.enter="login "
-                :disabled="loading"
-                :loading="loading"
             >
               Login
             </v-btn>
@@ -66,47 +59,28 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia'
+import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
+import { useGlobalStore } from '../../stores/global'
+import { login } from './js/auth'
 
 export default {
   data () {
     return {
-      logo: this.asset + '/assets/logo/logo.png',
       showPass: false,
-      form: {
-        email: '',
-        password: '',
-      },
-      type: 'password',
-      valid: true,
-      errors: [],
-      loading: false,
       theme: localStorage.getItem('theme')
     }
   },
+  computed: {
+    ...mapWritableState(useAuthStore, { login: 'login', errors: 'errors' }),
+    ...mapState(useAuthStore, { getLoginData: 'getLoginData' }),
+    ...mapState(useGlobalStore, { getLogo: 'getLogo' })
+  },
   methods: {
-    ...mapActions(useAuthStore, { authToken: 'setToken' }),
-    async login () {
-      this.loading = true
-      const formData = new FormData()
-      formData.append('email', this.form.email)
-      formData.append('password', this.form.password)
-
-      const res = await this.$postWithOutToken('/api/admin/login', formData)
-      if (res.data?.success) {
-        this.authToken(res.data.token)
-        this.$success(res.data.message)
-        this.$router.push({ name: 'admin.dashboard' })
-      }
-      if (res.errors?.error) {
-        this.$error(res.errors?.error)
-      }
-      if (res.errors?.errors) {
-        this.errors = res.errors?.errors
-      }
-      this.loading = false
-
+    ...mapActions(useAuthStore, { authToken: 'setToken', setErrors: 'setErrors', clearLogin: 'clearLogin' }),
+    ...mapActions(useGlobalStore, { setGlobalLoading: 'setGlobalLoading' }),
+    async submit () {
+      await login(this)
     }
   },
   mounted () {

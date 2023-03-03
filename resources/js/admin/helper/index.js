@@ -4,12 +4,15 @@
  * Automatically included in `./src/app.js`
  */
 
-import crud from "./crud";
-import toaster from "./toaster";
-import helper from "./helper";
+import crud from './crud'
+import toaster from './toaster'
+import helper from './helper'
+import Loading from '../components/loading/index.vue'
+
 export function registerHelper (app) {
-    app
-        .use(crud)
-        .use(toaster)
-        .use(helper)
+  app
+    .use(crud)
+    .use(toaster)
+    .use(helper)
+    .component('GlobalLoading', Loading)
 }
