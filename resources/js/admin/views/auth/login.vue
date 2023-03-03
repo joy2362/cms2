@@ -1,5 +1,5 @@
 <template>
-  <v-app :theme="theme">
+  <v-app>
     <GlobalLoading/>
     <div class="main-bg">
 
@@ -26,7 +26,6 @@
                 type="email"
                 :error="!!errors.email"
                 :error-messages="errors.email"
-                @keydown.enter="submit()"
             ></v-text-field>
 
             <v-text-field
@@ -35,12 +34,11 @@
                 color="primary"
                 label="Password"
                 v-model="login.password"
-                :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
-                @click:append="showPass = !showPass"
-                :type="showPass ? 'text' : 'password'"
+                :append-icon="login.showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="login.showPass ? 'text' : 'password'"
+                @click:append="login.showPass = !login.showPass"
                 :error="!!errors.password"
                 :error-messages="errors.password"
-                @keydown.enter="submit()"
             ></v-text-field>
           </div>
           <div class="login-button">
@@ -65,15 +63,9 @@ import { useGlobalStore } from '../../stores/global'
 import { login } from './js/auth'
 
 export default {
-  data () {
-    return {
-      showPass: false,
-      theme: localStorage.getItem('theme')
-    }
-  },
   computed: {
     ...mapWritableState(useAuthStore, { login: 'login', errors: 'errors' }),
-    ...mapState(useAuthStore, { getLoginData: 'getLoginData' }),
+    ...mapState(useAuthStore, { getLoginData: 'getLoginData', getLoginUrl: 'getLoginUrl' }),
     ...mapState(useGlobalStore, { getLogo: 'getLogo' })
   },
   methods: {
@@ -82,14 +74,12 @@ export default {
     async submit () {
       await login(this)
     }
-  },
-  mounted () {
-    this.auth = useAuthStore()
   }
 }
 </script>
 
 <style scoped>
+
 .main-bg {
   display: flex;
   justify-content: center;

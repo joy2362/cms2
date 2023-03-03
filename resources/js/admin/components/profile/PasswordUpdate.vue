@@ -40,7 +40,7 @@
 <script>
 import { mapWritableState, mapState, mapActions } from 'pinia'
 import { useProfileStore } from '../../stores/profile'
-import { submit } from './js/PasswordUpdate'
+import { submit } from './js/profile'
 
 export default {
   name: 'PasswordUpdate',

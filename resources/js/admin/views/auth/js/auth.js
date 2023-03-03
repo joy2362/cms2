@@ -1,6 +1,6 @@
 export const login = async (_this) => {
   _this.setGlobalLoading(true)
-  const res = await _this.$postWithOutToken('/api/admin/login', _this.getLoginData)
+  const res = await _this.$postWithOutToken(_this.getLoginUrl, _this.getLoginData)
   if (res.data?.success) {
     _this.authToken(res.data.token)
     _this.setErrors()

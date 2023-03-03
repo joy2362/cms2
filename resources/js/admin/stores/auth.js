@@ -7,7 +7,9 @@ export const useAuthStore = defineStore('auth', {
       login: {
         email: '',
         password: '',
+        showPass: false
       },
+      loginUrl: '/api/admin/login',
       errors: [],
     }
   },
@@ -17,6 +19,9 @@ export const useAuthStore = defineStore('auth', {
     },
     getLoginData (state) {
       return state.login
+    },
+    getLoginUrl (state) {
+      return state.loginUrl
     },
     getErrors (state) {
       return state.errors
@@ -30,12 +35,13 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token')
     },
     setErrors (payload = []) {
-      this.error = payload;
+      this.error = payload
     },
     clearLogin () {
       this.login = {
         email: '',
         password: '',
+        showPass: false
       }
     }
   }
