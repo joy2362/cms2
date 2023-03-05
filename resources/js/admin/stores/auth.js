@@ -9,6 +9,13 @@ export const useAuthStore = defineStore('auth', {
         password: '',
         showPass: false
       },
+      resetPassword: {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        showPass: false,
+        showConfirmPass: false,
+      },
       loginUrl: '/api/admin/login',
       errors: [],
     }
@@ -19,6 +26,12 @@ export const useAuthStore = defineStore('auth', {
     },
     getLoginData (state) {
       return state.login
+    },
+    getForgetPassData (state) {
+      return { email: state.resetPassword.email }
+    },
+    getResetPassData (state) {
+      return { email: state.resetPassword.email }
     },
     getLoginUrl (state) {
       return state.loginUrl

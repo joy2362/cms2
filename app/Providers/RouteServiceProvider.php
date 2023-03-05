@@ -42,6 +42,7 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('api')
                 ->prefix('api/admin')
+                ->middleware('throttle:100,1')
                 ->group(base_path('routes/api.admin.php'));
         });
     }

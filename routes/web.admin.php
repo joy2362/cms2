@@ -13,17 +13,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard',function(){
+Route::get('/login', function () {
     return view('admin');
 });
 
-Route::get('/profile',function(){
+Route::get('/forget-password', function () {
     return view('admin');
 });
 
-Route::get('/login',function(){
+Route::get('/dashboard', function () {
     return view('admin');
 });
+
+Route::get('/profile', function () {
+    return view('admin');
+});
+
+
 
 Route::get('/chat',function(){
     return view('admin');
