@@ -11,6 +11,7 @@ export const useAuthStore = defineStore('auth', {
       },
       resetPassword: {
         email: '',
+        token: '',
         password: '',
         confirmPassword: '',
         showPass: false,
@@ -32,7 +33,11 @@ export const useAuthStore = defineStore('auth', {
       return { email: state.resetPassword.email }
     },
     getResetPassData (state) {
-      return { email: state.resetPassword.email }
+      return {
+        token: state.resetPassword.token,
+        password: state.resetPassword.password,
+        confirmPassword: state.resetPassword.confirmPassword,
+      }
     },
     getLoginUrl (state) {
       return state.loginUrl
@@ -64,11 +69,16 @@ export const useAuthStore = defineStore('auth', {
     clearForgetPassword () {
       this.resetPassword = {
         email: '',
+        token: '',
         password: '',
         confirmPassword: '',
         showPass: false,
         showConfirmPass: false,
       }
+    },
+    setResetPasswordToken (payload) {
+      this.resetPassword.token = payload
     }
+
   }
 })

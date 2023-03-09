@@ -20,6 +20,15 @@ const routes = [
     component: () => import(/* webpackChunkName: "admin.forget.password" */'../views/auth/forgetPassword.vue'),
   },
   {
+    path: '/admin/password-reset',
+    name: 'admin.password.reset',
+    meta: {
+      title: 'Password reset',
+      redirectIfAuthenticated: true,
+    },
+    component: () => import(/* webpackChunkName: "admin.password.reset" */'../views/auth/passwordReset.vue'),
+  },
+  {
 
     path: '/',
     component: () => import('../layouts/main/layout-bar.vue'),
