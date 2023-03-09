@@ -17,7 +17,7 @@ class ForgetPassword
     /**
      * Create a new event instance.
      */
-    public function __construct(public $email, public $token)
+    public function __construct(public $admin, public $token)
     {
         //
     }

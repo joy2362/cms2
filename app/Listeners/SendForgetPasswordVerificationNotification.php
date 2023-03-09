@@ -25,13 +25,8 @@ class SendForgetPasswordVerificationNotification
     public function handle(ForgetPassword $event): void
     {
         Notification::send(
-            $this->fetchAdmin($event->email),
-            new AdminForgetPasswordNotification($event->email, $event->token)
+            $event->admin,
+            new AdminForgetPasswordNotification($event->admin, $event->token)
         );
-    }
-
-    private function fetchAdmin($email)
-    {
-        return Admin::where('email', $email)->first();
     }
 }

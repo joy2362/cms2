@@ -35,35 +35,35 @@ class AdminAuthService
     }
 
 
-    public function forgetPassword($request)
+    public function forgetPassword($request): Collection
     {
-        if ($this->matchPassword($request->validated()['email'])) {
-            $this->addPasswordResetRecode($request->validated()['email']);
+        if ($user = $this->matchPassword($request->validated()['email'])) {
+            $this->addPasswordResetRecode($user);
             return $this->forgetPasswordSuccess();
         } else {
             return $this->forgetPasswordEmailMismatch();
         }
     }
 
-    private function matchPassword($email): bool
+    private function matchPassword($email): Admin
     {
-        return (bool)Admin::where('email', $email)->first();
+        return Admin::where('email', $email)->first();
     }
 
-    private function addPasswordResetRecode($email): void
+    private function addPasswordResetRecode($user): void
     {
         $token = $this->generateToken();
         DB::table('password_resets')->insert([
-            'email' => $email,
+            'email' => $user->email,
             'token' => $token,
             'created_at' => now()
         ]);
-        $this->sendEmail($email, $token);
+        $this->sendEmail($user, $token);
     }
 
-    private function sendEmail($email, $token)
+    private function sendEmail($user, $token)
     {
-        ForgetPassword::dispatch($email, $token);
+        ForgetPassword::dispatch($user, $token);
     }
 
     private function generateToken(): string
