@@ -18,7 +18,7 @@
 
           <div class="form-login">
             <v-text-field
-                v-model="login.email"
+                v-model="resetPassword.email"
                 :error="!!errors.email"
                 :error-messages="errors.email"
                 color="primary"
@@ -35,7 +35,7 @@
                 color="primary"
                 type="submit"
             >
-              Login
+              Send Instructions
             </v-btn>
           </div>
         </v-form>
@@ -48,20 +48,20 @@
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
 import { useGlobalStore } from '../../stores/global'
-import { login } from './js/auth'
+import { forgetPassword } from './js/auth'
 
 export default {
   name: 'ForgetPassword',
   computed: {
-    ...mapWritableState(useAuthStore, { login: 'login', errors: 'errors' }),
-    ...mapState(useAuthStore, { getLoginData: 'getLoginData', getLoginUrl: 'getLoginUrl' }),
+    ...mapWritableState(useAuthStore, { resetPassword: 'resetPassword', errors: 'errors' }),
+    ...mapState(useAuthStore, { getForgetPassData: 'getForgetPassData', getForgetPasswordUrl: 'getForgetPasswordUrl' }),
     ...mapState(useGlobalStore, { getLogo: 'getLogo' })
   },
   methods: {
-    ...mapActions(useAuthStore, { authToken: 'setToken', setErrors: 'setErrors', clearLogin: 'clearLogin' }),
+    ...mapActions(useAuthStore, { setErrors: 'setErrors', clearForgetPassword: 'clearForgetPassword' }),
     ...mapActions(useGlobalStore, { setGlobalLoading: 'setGlobalLoading' }),
     async submit () {
-      await login(this)
+      await forgetPassword(this)
     }
   }
 }

@@ -32,6 +32,10 @@ class AdminPasswordUpdateRequest extends FormRequest
         ];
     }
 
+    /**
+     * @param Validator $validator
+     * @return void
+     */
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(

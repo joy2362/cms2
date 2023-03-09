@@ -2,9 +2,10 @@
 
 namespace App\Services\Backend;
 
+use App\Events\ForgetPassword;
 use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Support\{Collection, Facades\Auth};
+use Illuminate\Support\{Collection, Facades\Auth, Facades\DB, Str};
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -31,6 +32,43 @@ class AdminAuthService
     {
         return $request->user()->currentAccessToken()->delete() ?
             $this->logoutSuccess() : $this->logoutFailed();
+    }
+
+
+    public function forgetPassword($request)
+    {
+        if ($this->matchPassword($request->validated()['email'])) {
+            $this->addPasswordResetRecode($request->validated()['email']);
+            return $this->forgetPasswordSuccess();
+        } else {
+            return $this->forgetPasswordEmailMismatch();
+        }
+    }
+
+    private function matchPassword($email): bool
+    {
+        return (bool)Admin::where('email', $email)->first();
+    }
+
+    private function addPasswordResetRecode($email): void
+    {
+        $token = $this->generateToken();
+        DB::table('password_resets')->insert([
+            'email' => $email,
+            'token' => $token,
+            'created_at' => now()
+        ]);
+        $this->sendEmail($email, $token);
+    }
+
+    private function sendEmail($email, $token)
+    {
+        ForgetPassword::dispatch($email, $token);
+    }
+
+    private function generateToken(): string
+    {
+        return Str::random(40);
     }
 
     /**
@@ -91,6 +129,31 @@ class AdminAuthService
             'message' => trans('auth.success'),
             'token' => $this->getToken($email),
             'status' => Response::HTTP_OK,
+        ]);
+    }
+
+    /**
+     * @param $email
+     * @return Collection
+     */
+    private function forgetPasswordSuccess(): Collection
+    {
+        return new Collection([
+            'success' => true,
+            'message' => trans('passwords.sent'),
+            'status' => Response::HTTP_OK,
+        ]);
+    }
+
+    /**
+     * @return Collection
+     */
+    private function forgetPasswordEmailMismatch(): Collection
+    {
+        return new Collection([
+            'success' => false,
+            'error' => trans('passwords.user'),
+            'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
         ]);
     }
 

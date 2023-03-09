@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', LoginController::class);
-
+Route::post('/forget-password', [AdminAuthController::class, 'forgetPassword']);
 
 Route::middleware('auth:sanctum')
     ->group(function () {

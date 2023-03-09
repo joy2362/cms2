@@ -32,13 +32,17 @@ class AdminLoginRequest extends FormRequest
         ];
     }
 
+    /**
+     * @param Validator $validator
+     * @return void
+     */
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
             response()->json([
                 'success' => false,
                 'errors' => $validator->errors()
-            ],Response::HTTP_UNPROCESSABLE_ENTITY)
+            ], Response::HTTP_UNPROCESSABLE_ENTITY)
         );
     }
 

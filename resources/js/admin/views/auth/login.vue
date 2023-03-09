@@ -40,9 +40,12 @@
                 :error="!!errors.password"
                 :error-messages="errors.password"
             ></v-text-field>
+            <v-list-item :to="{path: '/admin/forget-password'}">Forgot Password?</v-list-item>
+
           </div>
           <div class="login-button">
-            <v-btn
+
+          <v-btn
                 type="submit"
                 class="ma-2"
                 color="primary"
