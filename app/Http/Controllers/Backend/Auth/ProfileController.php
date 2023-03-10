@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\AdminGeneralUpdate;
+use App\Http\Requests\Backend\AdminGeneralUpdateRequest;
 use App\Http\Requests\Backend\AdminPasswordUpdateRequest;
 use App\Services\Backend\AdminProfileService;
 use Illuminate\Http\JsonResponse;
@@ -33,7 +33,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function changeGeneral(AdminGeneralUpdate $request): JsonResponse
+    public function changeGeneral(AdminGeneralUpdateRequest $request): JsonResponse
     {
         try {
             $response = (new AdminProfileService())->updateGeneral($request);

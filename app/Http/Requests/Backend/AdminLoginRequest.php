@@ -2,19 +2,16 @@
 
 namespace App\Http\Requests\Backend;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\Base\BaseRequest;
 
-class AdminLoginRequest extends FormRequest
+class AdminLoginRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -24,26 +21,12 @@ class AdminLoginRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|min:6',
+            'email' => 'required|min:2|max:30|email',
+            'password' => 'required|min:6|max:25',
         ];
-    }
-
-    /**
-     * @param Validator $validator
-     * @return void
-     */
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            response()->json([
-                'success' => false,
-                'errors' => $validator->errors()
-            ], Response::HTTP_UNPROCESSABLE_ENTITY)
-        );
     }
 
 }

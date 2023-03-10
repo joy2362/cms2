@@ -4,7 +4,7 @@ namespace App\Http\Requests\Backend;
 
 use App\Http\Requests\Base\BaseRequest;
 
-class AdminPasswordUpdateRequest extends BaseRequest
+class AdminGeneralUpdateRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,8 @@ class AdminPasswordUpdateRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'oldPassword' => 'required|min:6|max:20',
-            'newPassword' => 'required|min:6|max:20|same:confirmPassword',
-            'confirmPassword' => 'required|min:6|max:20',
+            'name' => 'required|min:2|max:30',
+            'email' => 'required|min:2|max:30|email',
         ];
     }
 
