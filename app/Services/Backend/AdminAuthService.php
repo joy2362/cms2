@@ -8,7 +8,6 @@ use App\Traits\Backend\ServiceReturnCollection;
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Illuminate\Http\Request;
 use Illuminate\Support\{Collection, Facades\Auth, Facades\DB, Facades\Hash, Str};
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Handle admin auth
@@ -25,7 +24,8 @@ class AdminAuthService
      */
     public function login($request): Collection
     {
-        return Auth::guard(Admin::GUARD)->attempt($request->validated()) ? $this->success([
+        return Auth::guard(Admin::GUARD)->attempt($request->validated()) ? $this->success(
+            [
                 'message' => trans('auth.success'),
                 'token' => $this->generateAuthToken($request->input('email')),
             ]
@@ -150,5 +150,4 @@ class AdminAuthService
             'password' => Hash::make($password)
         ]);
     }
-
 }

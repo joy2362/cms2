@@ -28,5 +28,4 @@ class AdminLoginRequest extends BaseRequest
             'password' => 'required|min:6|max:25',
         ];
     }
-
 }

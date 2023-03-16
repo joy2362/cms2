@@ -26,5 +26,4 @@ class AdminGeneralUpdateRequest extends BaseRequest
             'email' => 'required|min:2|max:30|email',
         ];
     }
-
 }

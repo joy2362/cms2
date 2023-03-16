@@ -19,13 +19,12 @@ class LoginController extends Controller
     {
         try {
             $response = (new AdminAuthService())->login($request);
-            return response()->json($response->except(['status']),$response['status']);
-
+            return response()->json($response->except(['status']), $response['status']);
         } catch (\Exception $ex) {
             return response()->json([
                 'success' => false,
                 'errors' => $ex->getMessage(),
-            ],422);
+            ], 422);
         }
     }
 }

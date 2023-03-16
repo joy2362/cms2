@@ -10,5 +10,4 @@ class GlobalHelperFacade extends Facade
     {
         return 'globalHelper';
     }
-
 }

@@ -62,8 +62,10 @@ class CreatePermissionTables extends Migration
 
                 $table->string('model_type');
                 $table->unsignedBigInteger($columnNames['model_morph_key']);
-                $table->index([$columnNames['model_morph_key'], 'model_type'],
-                    'model_has_permissions_model_id_model_type_index');
+                $table->index(
+                    [$columnNames['model_morph_key'], 'model_type'],
+                    'model_has_permissions_model_id_model_type_index'
+                );
 
                 $table->foreign(PermissionRegistrar::$pivotPermission)
                     ->references('id') // permission id
@@ -98,8 +100,10 @@ class CreatePermissionTables extends Migration
 
                 $table->string('model_type');
                 $table->unsignedBigInteger($columnNames['model_morph_key']);
-                $table->index([$columnNames['model_morph_key'], 'model_type'],
-                    'model_has_roles_model_id_model_type_index');
+                $table->index(
+                    [$columnNames['model_morph_key'], 'model_type'],
+                    'model_has_roles_model_id_model_type_index'
+                );
 
                 $table->foreign(PermissionRegistrar::$pivotRole)
                     ->references('id') // role id
@@ -119,8 +123,10 @@ class CreatePermissionTables extends Migration
                         'model_has_roles_role_model_type_primary'
                     );
                 } else {
-                    $table->primary([PermissionRegistrar::$pivotRole, $columnNames['model_morph_key'], 'model_type'],
-                        'model_has_roles_role_model_type_primary');
+                    $table->primary(
+                        [PermissionRegistrar::$pivotRole, $columnNames['model_morph_key'], 'model_type'],
+                        'model_has_roles_role_model_type_primary'
+                    );
                 }
             }
         );
@@ -139,8 +145,10 @@ class CreatePermissionTables extends Migration
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
 
-            $table->primary([PermissionRegistrar::$pivotPermission, PermissionRegistrar::$pivotRole],
-                'role_has_permissions_permission_id_role_id_primary');
+            $table->primary(
+                [PermissionRegistrar::$pivotPermission, PermissionRegistrar::$pivotRole],
+                'role_has_permissions_permission_id_role_id_primary'
+            );
         });
 
         app('cache')

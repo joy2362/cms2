@@ -33,6 +33,6 @@ Route::get('/profile', function () {
     return view('admin');
 });
 
-Route::get('/chat',function(){
+Route::get('/chat', function () {
     return view('admin');
 });

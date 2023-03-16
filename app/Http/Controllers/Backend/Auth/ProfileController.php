@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-
     public function profile(Request $request): JsonResponse
     {
         return response()->json([

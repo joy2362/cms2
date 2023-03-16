@@ -27,5 +27,4 @@ class AdminPasswordUpdateRequest extends BaseRequest
             'confirmPassword' => 'required|min:6|max:20',
         ];
     }
-
 }

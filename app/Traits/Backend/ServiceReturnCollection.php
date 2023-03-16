@@ -41,5 +41,4 @@ trait ServiceReturnCollection
         }
         return new Collection($res);
     }
-
 }
