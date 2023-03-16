@@ -2,11 +2,14 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Facades\GlobalHelperFacade;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    private string $seederLocation = 'database/seeders/ModelSeeders';
+    private string $seederNamespace = '\\Database\\Seeders\\ModelSeeders\\';
+
     /**
      * Seed the application's database.
      *
@@ -14,15 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            AdminSeeder::class,
-        ]);
-
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $seeders = GlobalHelperFacade::getPhpFileFromDir(base_path($this->seederLocation));
+        foreach ($seeders as $seeder) {
+            $seeder = $this->seederNamespace . str_replace('.php', '', $seeder);
+            $seederClass = new $seeder();
+            $seederClass->run();
+        }
     }
 }
