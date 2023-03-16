@@ -16,7 +16,7 @@ jobs:
           with:
             prset: "psr12"
         - name: Commit changes
-          uses: stefanzeifel/git-auto-commit-action@v4
+          uses: stefanzweifel/git-auto-commit-action@v4
           with:
             commit_message: php linting
             skip_fetch: true
