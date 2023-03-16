@@ -1,0 +1,22 @@
+name: php linting
+
+on:
+  workflow_dispatch:
+  push:
+  
+jobs:
+    phplint:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 2
+        - name: "laravel-pint"
+          uses: aglipanci/laravel-pint-action@1.6.0
+          with:
+            prset: "psr12"
+        - name: Commit changes
+          uses: stefanzeifel/git-auto-commit-action@v4
+          with:
+            commit_message: php linting
+            skip_fetch: true
