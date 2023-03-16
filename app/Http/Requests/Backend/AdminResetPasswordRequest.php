@@ -3,12 +3,8 @@
 namespace App\Http\Requests\Backend;
 
 use App\Http\Requests\Base\BaseRequest;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Symfony\Component\HttpFoundation\Response;
 
-class AdminForgetPasswordRequest extends BaseRequest
+class AdminResetPasswordRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +23,9 @@ class AdminForgetPasswordRequest extends BaseRequest
     {
         return [
             'email' => 'required|min:2|max:30|email',
+            'token' => 'required|min:10|max:40',
+            'password' => 'required|min:6|max:20|same:confirmPassword',
+            'confirmPassword' => 'required|min:6|max:20',
         ];
     }
 }

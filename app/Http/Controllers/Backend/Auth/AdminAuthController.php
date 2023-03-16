@@ -52,6 +52,14 @@ class AdminAuthController extends Controller
 
     public function passwordReset(AdminResetPasswordRequest $request)
     {
-        dd($request->all());
+        try {
+            $response = $this->adminAuthService->passwordReset($request);
+            return response()->json($response->except(['status']), $response['status']);
+        } catch (\Exception $ex) {
+            return response()->json([
+                'success' => false,
+                'errors' => $ex->getMessage(),
+            ], 422);
+        }
     }
 }

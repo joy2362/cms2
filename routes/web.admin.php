@@ -21,7 +21,7 @@ Route::get('/forget-password', function () {
     return view('admin');
 });
 
-Route::get('/password-reset', function () {
+Route::get('/password-reset/{email}/{token}', function () {
     return view('admin');
 })->name('admin.password.reset');
 
@@ -32,8 +32,6 @@ Route::get('/dashboard', function () {
 Route::get('/profile', function () {
     return view('admin');
 });
-
-
 
 Route::get('/chat',function(){
     return view('admin');

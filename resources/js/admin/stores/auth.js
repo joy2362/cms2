@@ -19,6 +19,7 @@ export const useAuthStore = defineStore('auth', {
       },
       loginUrl: '/api/admin/login',
       forgetPasswordUrl: '/api/admin/forget-password',
+      resetPasswordUrl: '/api/admin/password-reset',
       errors: [],
     }
   },
@@ -35,6 +36,7 @@ export const useAuthStore = defineStore('auth', {
     getResetPassData (state) {
       return {
         token: state.resetPassword.token,
+        email: state.resetPassword.email,
         password: state.resetPassword.password,
         confirmPassword: state.resetPassword.confirmPassword,
       }
@@ -44,6 +46,9 @@ export const useAuthStore = defineStore('auth', {
     },
     getForgetPasswordUrl (state) {
       return state.forgetPasswordUrl
+    },
+    getResetPasswordUrl (state) {
+      return state.resetPasswordUrl
     },
     getErrors (state) {
       return state.errors
@@ -76,9 +81,9 @@ export const useAuthStore = defineStore('auth', {
         showConfirmPass: false,
       }
     },
-    setResetPasswordToken (payload) {
-      this.resetPassword.token = payload
+    setResetPasswordTokenAndEmail (payload) {
+      this.resetPassword.token = payload.token
+      this.resetPassword.email = payload.email
     }
-
   }
 })

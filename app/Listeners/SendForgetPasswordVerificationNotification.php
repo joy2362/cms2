@@ -26,7 +26,7 @@ class SendForgetPasswordVerificationNotification
     {
         Notification::send(
             $event->admin,
-            new AdminForgetPasswordNotification($event->admin, $event->token)
+            new AdminForgetPasswordNotification($event->admin->email, $event->token)
         );
     }
 }

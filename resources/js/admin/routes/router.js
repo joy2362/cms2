@@ -20,7 +20,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "admin.forget.password" */'../views/auth/forgetPassword.vue'),
   },
   {
-    path: '/admin/password-reset',
+    path: '/admin/password-reset/:email/:token',
     name: 'admin.password.reset',
     meta: {
       title: 'Password reset',

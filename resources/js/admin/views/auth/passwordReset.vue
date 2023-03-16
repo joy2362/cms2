@@ -62,27 +62,28 @@
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
 import { useGlobalStore } from '../../stores/global'
-import { forgetPassword } from './js/auth'
+import { resetPassword } from './js/auth'
 
 export default {
   name: 'passwordReset',
   mounted () {
-    this.setResetPasswordToken(this.$route.query.token)
+    const data = { 'token': this.$route.params.token, 'email': this.$route.params.email }
+    this.setResetPasswordTokenAndEmail(data)
   },
   computed: {
     ...mapWritableState(useAuthStore, { resetPassword: 'resetPassword', errors: 'errors' }),
-    ...mapState(useAuthStore, { getResetPassData: 'getResetPassData', getForgetPasswordUrl: 'getForgetPasswordUrl' }),
+    ...mapState(useAuthStore, { getResetPassData: 'getResetPassData', getResetPasswordUrl: 'getResetPasswordUrl' }),
     ...mapState(useGlobalStore, { getLogo: 'getLogo' })
   },
   methods: {
     ...mapActions(useAuthStore, {
       setErrors: 'setErrors',
       clearForgetPassword: 'clearForgetPassword',
-      setResetPasswordToken: 'setResetPasswordToken'
+      setResetPasswordTokenAndEmail: 'setResetPasswordTokenAndEmail'
     }),
     ...mapActions(useGlobalStore, { setGlobalLoading: 'setGlobalLoading' }),
     async submit () {
-      console.log(this.getResetPassData)
+      await resetPassword(this)
     }
   }
 }
