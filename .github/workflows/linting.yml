@@ -1,7 +1,6 @@
 name: php linting
 
 on:
-  workflow_dispatch:
   push:
   
 jobs:
