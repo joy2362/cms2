@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
             [
                 'name' => "Abdullah zahid joy",
                 'avatar' => "upload/admin/avatar/221218063121-2483.jpg",
-                'password' => Hash::make('1234')
+                'password' => Hash::make('123456')
             ]
         );
     }

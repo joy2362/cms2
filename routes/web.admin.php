@@ -36,3 +36,7 @@ Route::get('/profile', function () {
 Route::get('/chat', function () {
     return view('admin');
 });
+
+Route::get('/role', function () {
+    return view('admin');
+});

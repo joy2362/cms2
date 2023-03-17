@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\Backend\{Auth\AdminAuthController, Auth\LoginController, Auth\ProfileController};
+use App\Http\Controllers\Backend\{AdminRole\AdminRoleController,
+    Auth\AdminAuthController,
+    Auth\LoginController,
+    Auth\ProfileController
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,4 +38,10 @@ Route::middleware('auth:sanctum')
             Route::post('/password', 'changePassword');
             Route::post('/general', 'changeGeneral');
         });
+        /*
+        |--------------------------------------------------------------------------
+        | Resource routes
+        |--------------------------------------------------------------------------
+        */
+        Route::resource('role', AdminRoleController::class);
     });

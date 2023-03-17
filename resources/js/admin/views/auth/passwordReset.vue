@@ -89,48 +89,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-.main-bg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 120px 0;
-}
-
-.card-login {
-  width: 600px;
-}
-
-@media screen and (max-width: 450px) {
-  .card-login {
-    width: 80%;
-  }
-}
-
-.login-logo {
-  width: 270px;
-  height: auto;
-}
-
-@media screen and (max-width: 450px) {
-  .login-logo {
-    width: 150px;
-  }
-}
-
-.form-login {
-  width: 80%;
-  margin: auto;
-}
-
-.login-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-  margin-bottom: 35px;
-}
-</style>
+<style scoped src="./css/style.css"></style>

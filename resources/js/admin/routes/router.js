@@ -57,9 +57,19 @@ const routes = [
         path: 'admin/chat',
         name: 'admin.chat',
         meta: {
-          title: 'Messenger'
+          title: 'Messenger',
+          requireAuth: true
         },
-        component: () => import(/* webpackChunkName: "Profile" */'../views/chat/chat.vue')
+        component: () => import(/* webpackChunkName: "admin.chat" */'../views/chat/chat.vue')
+      },
+      {
+        path: 'admin/role',
+        name: 'admin.role',
+        meta: {
+          title: 'Role',
+          requireAuth: true
+        },
+        component: () => import(/* webpackChunkName: "admin.role" */'../views/role/index.vue')
       }
     ],
   },
