@@ -10,11 +10,9 @@ use Illuminate\Http\{JsonResponse, Request};
 
 class AdminAuthController extends Controller
 {
-    private AdminAuthService $adminAuthService;
 
-    public function __construct()
+    public function __construct(private readonly AdminAuthService $adminAuthService)
     {
-        $this->adminAuthService = new AdminAuthService();
     }
 
     public function me(): JsonResponse
@@ -50,7 +48,7 @@ class AdminAuthController extends Controller
         }
     }
 
-    public function passwordReset(AdminResetPasswordRequest $request)
+    public function passwordReset(AdminResetPasswordRequest $request): JsonResponse
     {
         try {
             $response = $this->adminAuthService->passwordReset($request);

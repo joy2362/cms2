@@ -7,16 +7,20 @@
       <v-row>
         <v-col cols="2">
           <v-select
-              v-model="select"
-              :items="items"
-              label="Item"
-              required
+              v-model="search.field"
+              :items="searchFields"
+              item-title="label"
+              item-value="field"
+              label="Search Field"
+              variant="solo"
           ></v-select>
         </v-col>
         <v-col cols="3">
           <v-text-field
-              v-model="name"
+              v-model="search.search"
+              variant="solo"
               label="Search"
+              @input="$emit('search')"
           ></v-text-field>
         </v-col>
         <v-spacer></v-spacer>
@@ -38,7 +42,7 @@
         </v-col>
       </v-row>
     </v-sheet>
-    <v-table ref="table">
+    <v-table>
       <thead>
       <tr>
         <th>#</th>
@@ -47,9 +51,11 @@
 
         >
           {{ column.label }}
-          <v-icon v-if="column.sortable" :icon="(sortColumn === column.field ? sortType === 'desc' ? 'mdi-chevron-up' : 'mdi-chevron-down' : 'mdi-chevron-up')"
+          <v-icon v-if="column.sortable"
+                  :icon="(this.search.sortField === column.field ? this.search.sortBy === 'desc' ? 'mdi-chevron-up' : 'mdi-chevron-down' : 'mdi-chevron-up')"
                   @click="sort(column.field)"></v-icon>
         </th>
+        <th>Actions</th>
       </tr>
       </thead>
       <tbody>
@@ -57,7 +63,7 @@
           :key="index"
       >
         <td>
-          {{ index }}
+          {{ getIndex(index) }}
         </td>
         <td v-for="(column, columnIndex) in columns"
             :key="columnIndex"
@@ -65,11 +71,41 @@
           <div>
             {{ collect(row, column.field) }}
           </div>
-
         </td>
+        <td>-</td>
         <slot :row="row" name="tbody-tr"/>
       </tr>
       </tbody>
+      <tfoot class="mt-3">
+      <tr>
+        <td colspan="4">
+          <v-row>
+            <v-col cols="2">
+              <v-select
+                  v-model="search.perPage"
+                  :items="perPage"
+                  label="Rows per page"
+                  variant="solo"
+                  @update:modelValue="$emit('search')"
+              ></v-select>
+            </v-col>
+            <v-col cols="3"> {{ pageStart }} - {{ pageEnd }} of {{ this.total }}
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="6">
+              <v-pagination
+                  v-model="search.page"
+                  :length="totalPage"
+                  :total-visible="totalVisible"
+                  rounded="circle"
+                  size="small"
+                  @update:modelValue="$emit('search')"
+              ></v-pagination>
+            </v-col>
+          </v-row>
+        </td>
+      </tr>
+      </tfoot>
     </v-table>
   </div>
 </template>
@@ -77,24 +113,37 @@
 <script>
 import props from './props/props'
 import { collect } from './js/dataTable'
+import { mapWritableState } from 'pinia'
+import { useDataTableStore } from '../../stores/dataTable'
 
 export default {
   name: 'dataTable',
   props: props,
-  data () {
-    return {
-      searchInput: '',
-      sortColumn: '',
-      sortType: 'desc',
-      items: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-      ],
-    }
+
+  computed: {
+    totalPage () {
+      return Math.ceil((this.total / this.search.perPage))
+    },
+    pageStart () {
+      return (this.search.perPage * (this.search.page - 1)) + 1
+    },
+    pageEnd () {
+      let pageEnd = this.search.perPage * this.search.page
+      return this.total < pageEnd ? this.total : pageEnd
+    },
+    searchFields () {
+      let fields = []
+      fields = this.columns.filter(ele => {
+        return ele.sortable
+      })
+      return fields
+    },
+    ...mapWritableState(useDataTableStore, { search: 'search', perPage: 'perPage', totalVisible: 'totalVisible' }),
   },
   methods: {
+    getIndex (index) {
+      return index + (this.search.perPage * (this.search.page - 1)) + 1
+    },
     exportExcel () {
       console.log('exportExcel')
     },
@@ -105,19 +154,23 @@ export default {
       return collect(row, field)
     },
     sort (index) {
-      if (this.sortColumn === index) {
-        this.sortType = this.sortType === 'desc' ? 'asc' : 'desc'
+      console.log(index)
+      if (this.search.sortField === index) {
+        this.search.sortBy = this.search.sortBy === 'desc' ? 'asc' : 'desc'
       } else {
-        this.sortType = 'asc'
+        this.search.sortBy = 'asc'
       }
-
-      this.sortColumn = index
+      this.search.sortField = index
+      this.$emit('search')
     }
 
+  },
+  mounted () {
+    console.log(this.searchFields, 'adf')
   }
 }
 </script>
 
-<style scoped src="./css/style.css">
+<style scoped>
 
 </style>

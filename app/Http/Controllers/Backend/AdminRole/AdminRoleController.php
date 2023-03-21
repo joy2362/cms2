@@ -4,16 +4,12 @@ namespace App\Http\Controllers\Backend\AdminRole;
 
 use App\Http\Controllers\Controller;
 use App\Services\Backend\AdminRoleService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\{JsonResponse, Request};
 
 class AdminRoleController extends Controller
 {
-    private AdminRoleService $adminRoleService;
-
-    public function __construct()
+    public function __construct(private readonly AdminRoleService $adminRoleService)
     {
-        $this->adminRoleService = new AdminRoleService();
     }
 
     /**

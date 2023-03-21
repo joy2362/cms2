@@ -13,6 +13,8 @@ import Toaster from '@meforma/vue-toaster'
 import { useGlobalStore } from '../stores/global'
 import { useAuthStore } from '../stores/auth'
 import { useProfileStore } from '../stores/profile'
+import { useAdminRoleStore } from '../stores/role'
+import { useDataTableStore } from '../stores/dataTable'
 
 const pinia = createPinia()
 
@@ -26,4 +28,6 @@ export function registerPlugins (app) {
   useGlobalStore()
   useAuthStore()
   useProfileStore()
+  useAdminRoleStore()
+  useDataTableStore()
 }

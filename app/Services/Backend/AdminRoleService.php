@@ -24,7 +24,7 @@ class AdminRoleService
                 return $q->where($request['field'], 'like', '%' . $request['search'] . '%');
             })->when($request['sortField'] && $request['sortBy'], function ($q) use ($request) {
                 return $q->orderBy($request['sortField'], $request['sortBy']);
-            })->simplePaginate($request->perPage ?? 10);
+            })->paginate($request->perPage ?? 10);
             $this->collection = $this->success(['roles' => $roles]);
         } catch (Exception $ex) {
             $this->collection = $this->failed(['errors' => $ex->getMessage()]);

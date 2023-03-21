@@ -64,7 +64,6 @@ export const useProfileStore = defineStore('profile', {
           name: res.data.profile.name ?? '',
           email: res.data.profile.email ?? ''
         }
-
       })
     },
     setAvatar (payload) {
