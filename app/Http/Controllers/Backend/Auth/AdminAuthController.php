@@ -10,7 +10,6 @@ use Illuminate\Http\{JsonResponse, Request};
 
 class AdminAuthController extends Controller
 {
-
     public function __construct(private readonly AdminAuthService $adminAuthService)
     {
     }
