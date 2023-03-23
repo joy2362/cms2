@@ -14,4 +14,12 @@ class GlobalHelper
         }
         return $files;
     }
+
+    public function getGuardList(): array
+    {
+        $guards = array_filter(config('auth.guards'), function ($value) {
+            return $value['provider'];
+        });
+        return array_keys($guards);
+    }
 }
