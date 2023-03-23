@@ -81,7 +81,7 @@
 
     <v-app-bar :elevation="2">
       <template v-slot:prepend>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="setDrawer"></v-app-bar-nav-icon>
       </template>
       <template v-slot:append>
 
@@ -131,21 +131,30 @@
             <v-icon>mdi-message</v-icon>
           </v-badge>
         </v-btn>
-        <v-btn :prepend-icon="icon" @click="onClick"></v-btn>
+
+        <v-tooltip text="Theme">
+          <template v-slot:activator="{ props }">
+            <v-btn :icon="getTheme === 'dark' ?  'mdi-weather-night' : 'mdi-weather-sunny'" v-bind="props"
+                   variant="tonal"
+                   @click="changeTheme"></v-btn>
+          </template>
+        </v-tooltip>
       </template>
+
     </v-app-bar>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'pinia'
+import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
 import { useProfileStore } from '../../stores/profile'
+import { useSettingStore } from '../../stores/setting'
+import { changeTheme, logout } from './js/layout'
 
 export default {
   data () {
     return {
-      drawer: false,
       menu: [
         {
           title: 'Dashboard',
@@ -162,9 +171,12 @@ export default {
           icon: 'mdi-view-dashboard',
           url: '/admin/chat',
         },
+        {
+          title: 'Role',
+          icon: 'mdi-view-dashboard',
+          url: '/admin/role',
+        },
       ],
-      icon: '',
-      is_night: true,
       notification: [
         {
           title: 'abdullah zahid',
@@ -185,64 +197,28 @@ export default {
     }
   },
   mounted () {
-    this.getIcon()
     this.setProfile()
   },
   computed: {
-    ...mapState(useProfileStore, { profile: 'getProfile' })
+    ...mapState(useProfileStore, { profile: 'getProfile' }),
+    ...mapState(useSettingStore, { getTheme: 'getTheme' }),
+    ...mapWritableState(useSettingStore, { drawer: 'drawer' })
   },
   methods: {
     ...mapActions(useAuthStore, { logoutFromState: 'removeToken' }),
     ...mapActions(useProfileStore, { setProfile: 'setProfile' }),
-
-    onClick () {
-      this.$emit('tema')
-      this.is_night = !this.is_night
-      if (this.is_night === true) {
-        this.icon = 'mdi mdi-weather-night'
-      } else {
-        this.icon = 'mdi mdi-weather-sunny'
-      }
-      localStorage.setItem('icon', this.icon)
+    ...mapActions(useSettingStore, { setTheme: 'setTheme', setDrawer: 'setDrawer' }),
+    changeTheme () {
+      changeTheme(this)
     },
-
     toProfile () {
       this.$router.push('/admin/profile')
     },
-
-    getIcon () {
-      if (localStorage.getItem('theme') === 'dark') {
-        this.is_night = true
-        this.icon = 'mdi mdi-weather-sunny'
-      } else {
-        this.is_night = false
-        this.icon = 'mdi mdi-weather-night'
-      }
-    },
-
     async logout () {
-      const res = await this.$post('logout')
-      if (res.data?.success) {
-        this.$success(res.data.message)
-        this.logoutFromState()
-        this.$router.push('/admin/login')
-      }
-      if (res.errors?.error) {
-        this.$error(res.errors?.error)
-      }
+      await logout(this)
     }
   },
 }
 </script>
 
-<style scoped>
-.list {
-  cursor: pointer;
-  background: red;
-}
-
-.item_menu {
-  padding-left: 0;
-  margin-left: -25px;
-}
-</style>
+<style scoped src="./css/layout-app.css"></style>

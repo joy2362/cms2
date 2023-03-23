@@ -1,0 +1,9 @@
+.list {
+    cursor: pointer;
+    background: red;
+}
+
+.item_menu {
+    padding-left: 0;
+    margin-left: -25px;
+}

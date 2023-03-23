@@ -1,9 +1,13 @@
 <template>
   <div ref="table">
-    <v-card-title>
-      {{ title }}
-    </v-card-title>
-    <v-sheet>
+    <v-toolbar :title="title">
+      <v-tooltip text="Crate Role">
+        <template v-slot:activator="{ props }">
+          <v-btn icon="mdi-plus" v-bind="props" variant="tonal"></v-btn>
+        </template>
+      </v-tooltip>
+    </v-toolbar>
+    <v-sheet class="py-4">
       <v-row>
         <v-col cols="2">
           <v-select
@@ -23,26 +27,9 @@
               @input="$emit('search')"
           ></v-text-field>
         </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="1">
-          <v-btn
-              v-if="exportToExcel"
-              color="success"
-              icon="mdi-file-excel"
-              size="x-small"
-              @click="exportExcel"
-          ></v-btn>
-          <v-btn
-              v-if="printable"
-              color="primary"
-              icon="mdi-cloud-print"
-              size="x-small"
-              @click="printData"
-          ></v-btn>
-        </v-col>
       </v-row>
     </v-sheet>
-    <v-table>
+    <v-table class="table">
       <thead>
       <tr>
         <th>#</th>
@@ -79,7 +66,7 @@
       <tfoot class="mt-3">
       <tr>
         <td colspan="4">
-          <v-row>
+          <v-row class="align-center">
             <v-col cols="2">
               <v-select
                   v-model="search.perPage"
@@ -89,7 +76,7 @@
                   @update:modelValue="$emit('search')"
               ></v-select>
             </v-col>
-            <v-col cols="3"> {{ pageStart }} - {{ pageEnd }} of {{ this.total }}
+            <v-col class="font-weight-bold" cols="3"> {{ pageStart }} - {{ pageEnd }} of {{ this.total }}
             </v-col>
             <v-spacer></v-spacer>
             <v-col cols="6">
@@ -144,17 +131,10 @@ export default {
     getIndex (index) {
       return index + (this.search.perPage * (this.search.page - 1)) + 1
     },
-    exportExcel () {
-      console.log('exportExcel')
-    },
-    printData () {
-      console.log('printData')
-    },
     collect (row, field) {
       return collect(row, field)
     },
     sort (index) {
-      console.log(index)
       if (this.search.sortField === index) {
         this.search.sortBy = this.search.sortBy === 'desc' ? 'asc' : 'desc'
       } else {
@@ -164,9 +144,6 @@ export default {
       this.$emit('search')
     }
 
-  },
-  mounted () {
-    console.log(this.searchFields, 'adf')
   }
 }
 </script>
