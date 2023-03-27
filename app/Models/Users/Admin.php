@@ -2,19 +2,21 @@
 
 //@abdullah zahid joy
 
-namespace App\Models;
+namespace App\Models\Users;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
-    use Notifiable ;
+    use Notifiable;
+    use HasRoles;
 
     public const GUARD = 'admin';
 
@@ -54,7 +56,7 @@ class Admin extends Authenticatable
     public function getAvatarAttribute($value)
     {
         if (!empty($value)) {
-            return Storage::url($value) ;
+            return Storage::url($value);
         }
         return null;
     }

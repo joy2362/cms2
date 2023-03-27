@@ -3,9 +3,8 @@
 namespace App\Services\Backend;
 
 use App\Events\ForgetPassword;
-use App\Models\Admin;
+use App\Models\Users\Admin;
 use App\Traits\Backend\ServiceReturnCollection;
-use Illuminate\Database\Eloquent\{Model, Builder};
 use Illuminate\Http\Request;
 use Illuminate\Support\{Collection, Facades\Auth, Facades\DB, Facades\Hash, Str};
 

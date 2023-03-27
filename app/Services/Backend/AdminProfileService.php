@@ -2,7 +2,7 @@
 
 namespace App\Services\Backend;
 
-use App\Models\Admin;
+use App\Models\Users\Admin;
 use App\Traits\Backend\ServiceReturnCollection;
 use Illuminate\Support\{Collection, Facades\Hash};
 

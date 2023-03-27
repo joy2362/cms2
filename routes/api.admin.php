@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Backend\{AdminRole\AdminRoleController,
+use App\Http\Controllers\Backend\{
+    AdminRole\AdminRoleController,
     Auth\AdminAuthController,
     Auth\LoginController,
     Auth\ProfileController
@@ -43,5 +44,5 @@ Route::middleware('auth:sanctum')
         | Resource routes
         |--------------------------------------------------------------------------
         */
-        Route::resource('role', AdminRoleController::class);
+        Route::resource('role', AdminRoleController::class)->middleware('permission:admin');
     });
