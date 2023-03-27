@@ -5,10 +5,10 @@ namespace App\Helpers;
 class GlobalHelper
 {
     /**
-     * @param $dir
+     * @param string $dir
      * @return array
      */
-    public function getPhpFileFromDir($dir): array
+    public function getPhpFileFromDir(string $dir): array
     {
         $files = [];
         if (is_dir($dir)) {
@@ -28,5 +28,14 @@ class GlobalHelper
             return $value['provider'];
         });
         return array_keys($guards);
+    }
+
+    public function getPermissionNameFromRoute(string $name): string
+    {
+        $separateMethodAndControlName = explode('@', $name);
+        $methodName = $separateMethodAndControlName[1];
+        $separateControllerName = class_basename($separateMethodAndControlName[0]);
+        $controllerName = str_replace('Controller', '', $separateControllerName);
+        return "{$controllerName}.{$methodName}";
     }
 }

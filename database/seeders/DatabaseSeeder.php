@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Facades\GlobalHelperFacade;
+use Database\Seeders\ModelSeeders\PermissionSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,5 +24,8 @@ class DatabaseSeeder extends Seeder
             $seederClass = new $seeder();
             $seederClass->run();
         }
+//        $this->call([
+//            PermissionSeeder::class
+//        ]);
     }
 }

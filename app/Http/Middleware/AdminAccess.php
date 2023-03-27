@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Facades\GlobalHelperFacade;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,18 +18,8 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next, $guard)
     {
-        $route = $this->getMethodName(Route::current()->action['controller']);
-        dd(Auth::user());
+        $route = GlobalHelperFacade::getPermissionNameFromRoute(Route::current()->action['controller']);
+        dd($route);
         return $next($request);
-    }
-
-    private function getMethodName($name): string
-    {
-        $separateMethodAndControlName = explode('@', $name);
-        $methodName = $separateMethodAndControlName[1];
-        $separateControllerName = explode('\\', $separateMethodAndControlName[0]);
-        $controllerName = $separateControllerName[array_key_last($separateControllerName)];
-        $controllerName = str_replace('Controller', '', $controllerName);
-        return "{$controllerName}.{$methodName}";
     }
 }
