@@ -32,7 +32,7 @@ class PermissionSeeder extends Seeder
             Permission::updateOrCreate(
                 ['name' => $permission['name']],
                 [
-                    'guard_name' => $permission['name'],
+                    'guard_name' => 'admin',
                     'group_name' => $permission['group_name']
                 ]
             );

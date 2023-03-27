@@ -44,5 +44,5 @@ Route::middleware('auth:sanctum')
         | Resource routes
         |--------------------------------------------------------------------------
         */
-        Route::resource('role', AdminRoleController::class)->middleware('permission:admin');
+        Route::apiResource('role', AdminRoleController::class)->middleware('permission:admin');
     });

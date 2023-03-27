@@ -17,8 +17,20 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next, $guard)
     {
-        $route = GlobalHelperFacade::getPermissionNameFromRoute(Route::current()->action['controller']);
-        dd($route);
+        $permission = GlobalHelperFacade::getPermissionNameFromRoute(Route::current()->action['controller']);
+        if (!empty($guard) && !empty($permission)) {
+            if (!Auth::user()->can($permission)) {
+                return $request->wantsJson() ? response("You Dont Have Enough permission", 403) : abort(
+                    '403',
+                    "permission"
+                );
+            }
+        } else {
+            return $request->wantsJson() ? response("You Dont Have Enough permission", 403) : abort(
+                '403',
+                "permission"
+            );
+        }
         return $next($request);
     }
 }
