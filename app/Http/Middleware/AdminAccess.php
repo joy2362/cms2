@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use App\Facades\GlobalHelperFacade;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 class AdminAccess
