@@ -11,7 +11,6 @@ use Spatie\Permission\Models\Role;
 
 class PermissionSeeder extends Seeder
 {
-
     public const SUPER_ADMIN = 'Super Admin';
     public const ADMIN_EMAIL = 'abdullahzahidjoy@gmail.com';
 
