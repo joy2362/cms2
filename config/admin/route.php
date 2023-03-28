@@ -33,6 +33,10 @@ return [
             'name' => null,
         ],
         [
+            'url' => '/role/store',
+            'name' => null,
+        ],
+        [
             'url' => '/password-reset/{email}/{token}',
             'name' => 'admin.password.reset',
         ]

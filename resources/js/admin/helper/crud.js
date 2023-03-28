@@ -12,6 +12,7 @@ const crud = {
       })
       return response
     }
+
     app.config.globalProperties.$post = async (url, payload = []) => {
       const baseURL = '/api/admin/';
       let response = {

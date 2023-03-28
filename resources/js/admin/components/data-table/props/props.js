@@ -3,6 +3,10 @@ export default {
     type: String,
     required: true,
   },
+  create: {
+    type: Array,
+    required: true,
+  },
   exportToExcel: {
     type: Boolean,
     required: false,

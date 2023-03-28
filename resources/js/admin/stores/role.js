@@ -28,7 +28,12 @@ export const useAdminRoleStore = defineStore('role', {
           disabled: true,
           href: '',
         },
-      ]
+      ],
+      createInfo: {
+        name: 'Create Role',
+        url: '/admin/role/store'
+      }
+
     }
   },
   getters: {
@@ -43,6 +48,9 @@ export const useAdminRoleStore = defineStore('role', {
     },
     getBreadcrumb (state) {
       return state.breadcrumb
+    },
+    getCreateInfo (state) {
+      return state.createInfo
     }
   },
   actions: {

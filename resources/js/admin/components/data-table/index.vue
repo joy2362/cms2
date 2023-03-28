@@ -1,9 +1,9 @@
 <template>
   <div ref="table">
     <v-toolbar :title="title">
-      <v-tooltip text="Crate Role">
+      <v-tooltip :text="create.name">
         <template v-slot:activator="{ props }">
-          <v-btn icon="mdi-plus" v-bind="props" variant="tonal"></v-btn>
+          <v-btn :to="create.url" icon="mdi-plus" v-bind="props" variant="tonal"></v-btn>
         </template>
       </v-tooltip>
     </v-toolbar>

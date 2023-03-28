@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <TitleBarSection :routes="getBreadcrumb"></TitleBarSection>
-    <DataTable :columns='getColumns' :rows='getAllRole' :total="getTotal"
+    <DataTable :columns='getColumns' :create="getCreateInfo" :rows='getAllRole' :total="getTotal"
                title="Role" @search="search"/>
   </v-container>
 </template>
@@ -31,6 +31,7 @@ export default {
       getColumns: 'getColumns',
       getBreadcrumb: 'getBreadcrumb',
       getTotal: 'getTotal',
+      getCreateInfo: 'getCreateInfo',
     }),
     ...mapState(useDataTableStore, {
       getSearch: 'getSearch',

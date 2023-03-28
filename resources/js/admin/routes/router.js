@@ -70,6 +70,15 @@ const routes = [
           requireAuth: true
         },
         component: () => import(/* webpackChunkName: "admin.role" */'../views/role/index.vue')
+      },
+      {
+        path: 'admin/role/store',
+        name: 'admin.role.store',
+        meta: {
+          title: 'Create Role',
+          requireAuth: true
+        },
+        component: () => import(/* webpackChunkName: "admin.role.store" */'../views/role/create.vue')
       }
     ],
   },
