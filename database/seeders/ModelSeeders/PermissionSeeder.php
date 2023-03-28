@@ -11,6 +11,10 @@ use Spatie\Permission\Models\Role;
 
 class PermissionSeeder extends Seeder
 {
+
+    public const SUPER_ADMIN = 'Super Admin';
+    public const ADMIN_EMAIL = 'abdullahzahidjoy@gmail.com';
+
     /**
      * Run the database seeds.
      */
@@ -23,7 +27,7 @@ class PermissionSeeder extends Seeder
                 $permission = GlobalHelperFacade::getPermissionNameFromRoute($route->action['controller']);
                 $permissions[] = [
                     'name' => $permission,
-                    'guard_name' => 'admin',
+                    'guard_name' => Admin::GUARD,
                     'group_name' => explode('.', $permission)[0]
                 ];
             }
@@ -32,19 +36,19 @@ class PermissionSeeder extends Seeder
             Permission::updateOrCreate(
                 ['name' => $permission['name']],
                 [
-                    'guard_name' => 'admin',
+                    'guard_name' => Admin::GUARD,
                     'group_name' => $permission['group_name']
                 ]
             );
         }
 
-        $role = Role::where('name', 'Super Admin')->first();
+        $role = Role::where('name', self::SUPER_ADMIN)->first();
         if (!empty($role)) {
-            $role->givePermissionTo(Permission::where('guard_name', 'admin')->get());
+            $role->givePermissionTo(Permission::where('guard_name', Admin::GUARD)->get());
         }
-        $admin = Admin::where('email', 'abdullahzahidjoy@gmail.com')->first();
+        $admin = Admin::where('email', self::ADMIN_EMAIL)->first();
         if (!empty($admin)) {
-            $admin->assignRole('Super Admin');
+            $admin->assignRole(self::SUPER_ADMIN);
         }
     }
 }

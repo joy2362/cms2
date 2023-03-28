@@ -13,30 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', function () {
-    return view('admin');
-});
-
-Route::get('/forget-password', function () {
-    return view('admin');
-});
-
-Route::get('/password-reset/{email}/{token}', function () {
-    return view('admin');
-})->name('admin.password.reset');
-
-Route::get('/dashboard', function () {
-    return view('admin');
-});
-
-Route::get('/profile', function () {
-    return view('admin');
-});
-
-Route::get('/chat', function () {
-    return view('admin');
-});
-
-Route::get('/role', function () {
-    return view('admin');
-});
+foreach (config('admin.route.routes', []) as $route) {
+    Route::view($route['url'], config('admin.route.view'))->name($route['name'] ?? '');
+}
