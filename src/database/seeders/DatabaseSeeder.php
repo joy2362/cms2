@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
             $seederClass = new $seeder();
             $seederClass->run();
         }
-//        $this->call([
-//            PermissionSeeder::class
-//        ]);
+        //        $this->call([
+        //            PermissionSeeder::class
+        //        ]);
     }
 }
