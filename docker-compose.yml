@@ -1,0 +1,105 @@
+version: "3.9"
+
+networks:
+  laravel:
+
+services:
+  app:
+    build:
+      context: ./dockerfiles
+      dockerfile: nginx.dockerfile
+    container_name: nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src/:/var/www/html/
+    depends_on:
+      - php
+      - db
+    networks:
+      - laravel
+
+  php:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+    container_name: php
+    volumes:
+      - ./src/:/var/www/html/
+    networks:
+      - laravel
+
+  db:
+    restart: unless-stopped
+    tty: true
+    image: mysql:8.0.32
+    container_name: db
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=cms
+      - MYSQL_USER=joy2362
+      - MYSQL_PASSWORD=password
+      - T/Z=Asis/Dhaka
+    ports:
+      - '4306:3306'
+    networks:
+      - laravel
+
+  phpmyadmin:
+    restart: always
+    image: phpmyadmin/phpmyadmin:fpm-alpine
+    container_name: pma
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT= 3306
+      - PMA_ARBITRARY= 1
+    ports:
+      - '8010:80'
+    depends_on:
+      - db
+    networks:
+      - laravel
+
+  npm:
+    image: node:18.14.1-alpine
+    container_name: npm
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "5173:5173"
+    working_dir: /var/www/html
+    entrypoint: [ 'npm' ]
+    networks:
+      - laravel
+
+  artisan:
+    build:
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+    container_name: artisan
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - db
+    working_dir: /var/www/html
+    entrypoint: [ 'php', '/var/www/html/artisan' ]
+    networks:
+      - laravel
+
+  composer:
+    image: composer:2.3
+    container_name: composer
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - php
+    user: root
+    entrypoint: [ 'composer' ]
+    networks:
+      - laravel
