@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\ModelSeeders;
+namespace Database\Seeders;
 
 use App\Facades\GlobalHelperFacade;
 use App\Models\Users\Admin;

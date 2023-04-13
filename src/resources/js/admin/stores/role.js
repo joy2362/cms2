@@ -29,6 +29,7 @@ export const useAdminRoleStore = defineStore('role', {
           href: '',
         },
       ],
+      creadeBradecrumb: [],
       createInfo: {
         name: 'Create Role',
         url: '/admin/role/store'
@@ -51,9 +52,31 @@ export const useAdminRoleStore = defineStore('role', {
     },
     getCreateInfo (state) {
       return state.createInfo
-    }
+    },
+    getCreadeBradecrumb (state) {
+      return state.creadeBradecrumb
+    },
   },
   actions: {
+    setBradcrumb (type = 1) {
+      this.creadeBradecrumb = [
+        {
+          title: 'Dashboard',
+          disabled: false,
+          href: '/admin/dashboard',
+        },
+        {
+          title: 'Role',
+          disabled: false,
+          href: '/admin/role',
+        },
+        {
+          title: type == 1 ? 'Create Role' : 'Update Role',
+          disabled: true,
+          href: '',
+        },
+      ]
+    },
     setAllRole (payload = null) {
       const token = localStorage.getItem('token')
       let instance = axios.create({

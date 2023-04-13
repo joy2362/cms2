@@ -15,7 +15,7 @@ import { useAdminRoleStore } from '../../stores/role'
 import { useDataTableStore } from '../../stores/dataTable'
 
 export default {
-  name: 'adminIndex',
+  name: 'admin.index',
   components: { FooterSection, TitleBarSection, DataTable },
   methods: {
     ...mapActions(useAdminRoleStore, {

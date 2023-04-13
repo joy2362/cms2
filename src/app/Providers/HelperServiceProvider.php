@@ -12,7 +12,7 @@ class HelperServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('globalHelper', function () {
+        $this->app->singleton('globalHelper', function () {
             return new GlobalHelper();
         });
     }
