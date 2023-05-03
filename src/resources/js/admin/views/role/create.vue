@@ -19,7 +19,7 @@
               <v-chip
                   class="mx-1"
                   :class="selectedClass"
-                  @click="toggle"
+                  @click="toggleItem(permission.id)"
               >
                 {{ permission.title }}
               </v-chip>
@@ -66,6 +66,15 @@ export default {
         await updateRole(this, this.$route.params.id)
       } else {
         await createRole(this)
+      }
+    },
+    toggleItem (id) {
+      let found = this.singleData.permissions.find(element => element === id)
+      if (!found) {
+        this.singleData.permissions.push(id)
+      } else {
+        let index = this.singleData.permissions.findIndex(element => element === id)
+        this.singleData.permissions.splice(index, 1)
       }
     }
   },

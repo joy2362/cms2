@@ -18,14 +18,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $seeders = GlobalHelperFacade::getPhpFileFromDir(base_path($this->seederLocation));
+
         foreach ($seeders as $seeder) {
             $seeder = $this->seederNamespace . str_replace('.php', '', $seeder);
             $seederClass = new $seeder();
             $seederClass->run();
         }
-
-        $this->call([
-            PermissionSeeder::class
-        ]);
     }
 }

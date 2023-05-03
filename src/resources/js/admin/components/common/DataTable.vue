@@ -247,7 +247,7 @@ export default {
       this.$emit('search')
     },
     async deleteItem (id) {
-      await deleteItem(this, id + 12)
+      await deleteItem(this, id)
     }
 
   }

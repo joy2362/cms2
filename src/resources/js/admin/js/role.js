@@ -45,7 +45,7 @@ export const createRole = async (_this) => {
   const res = await _this.$post(_this.getApiRoutes.create, _this.getSingleData)
   if (res.data?.success) {
     _this.$success(res.data.message)
-    _this.setSingleData({ name: '', permissions: [] })
+    _this.setSingleData({ role: { name: '' }, permissions: [] })
   }
   if (res.errors?.error) {
     _this.$error(res.errors?.error)

@@ -15,7 +15,7 @@ export const deleteItem = async (_this, id) => {
     _this.$success(res.data.message)
     _this.$emit('search')
   }
-  if (res.error) {
+  if (res.error.message) {
     _this.$error(res.error.message)
     _this.dialog = false
   }
