@@ -73,7 +73,7 @@
                 </v-list-item-title>
               </v-list-item>
               <v-list-item
-                  to="/admin/role/update/1"
+                  :to="generateShowLink(row.id)"
                   value="show"
               >
                 <v-list-item-title>
@@ -184,6 +184,9 @@ export default {
   methods: {
     generateUpdateLink (id) {
       return this.update ? `${this.update}/${id}` : `/admin/${this.title.toLowerCase()}/update/${id}`
+    },
+    generateShowLink (id) {
+      return this.show ? `${this.show}/${id}` : `/admin/${this.title.toLowerCase()}/show/${id}`
     },
     getIndex (index) {
       return index + (this.search.perPage * (this.search.page - 1)) + 1

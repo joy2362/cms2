@@ -73,7 +73,6 @@ class AdminRoleService
     public function getPermissions(): Collection
     {
         $permissions = Permission::where('guard_name', 'admin')->get()->groupBy('group_name');
-        ;
         return $this->success(['permissions' => $permissions]);
     }
 }

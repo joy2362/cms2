@@ -17,6 +17,7 @@
                 :value="permission.id"
             >
               <v-chip
+                  class="mx-1"
                   :class="selectedClass"
                   @click="toggle"
               >

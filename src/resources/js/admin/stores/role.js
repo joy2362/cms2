@@ -87,7 +87,7 @@ export const useAdminRoleStore = defineStore('role', {
       if (type !== 'index') {
         this.breadCrumb.push(
           {
-            title: type === 'create' ? 'Create Role' : 'Update Role',
+            title: type === 'create' ? 'Create Role' : type === 'update' ? 'Update Role' : 'View Role',
             disabled: true,
             href: '',
           }

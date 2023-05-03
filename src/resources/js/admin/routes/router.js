@@ -81,6 +81,15 @@ const routes = [
         component: () => import(/* webpackChunkName: "admin.role.store" */'../views/role/create.vue')
       },
       {
+        path: 'admin/role/show/:id',
+        name: 'admin.role.show',
+        meta: {
+          title: 'Show Role',
+          requireAuth: true
+        },
+        component: () => import(/* webpackChunkName: "admin.role" */'../views/role/show.vue')
+      },
+      {
         path: 'admin/role/update/:id',
         name: 'admin.role.update',
         meta: {

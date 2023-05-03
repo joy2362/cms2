@@ -41,6 +41,10 @@ return [
             'name' => null,
         ],
         [
+            'url' => '/role/show/{id}',
+            'name' => null,
+        ],
+        [
             'url' => '/password-reset/{email}/{token}',
             'name' => 'admin.password.reset',
         ]
