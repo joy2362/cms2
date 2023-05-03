@@ -31,7 +31,7 @@ const routes = [
   {
 
     path: '/',
-    component: () => import('../layouts/main/layout-bar.vue'),
+    component: () => import('../layouts/Main.vue'),
     name: 'layout',
     children: [
       {
