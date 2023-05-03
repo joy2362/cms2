@@ -27,13 +27,14 @@ trait ServiceReturnCollection
 
     /**
      * @param array $items
+     * @param int|null $status
      * @return Collection
      */
-    private function failed(array $items = []): Collection
+    private function failed(array $items = [], int $status = null): Collection
     {
         $res = [
             'success' => false,
-            'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+            'status' => $status ?? Response::HTTP_UNPROCESSABLE_ENTITY,
         ];
 
         foreach ($items as $key => $item) {

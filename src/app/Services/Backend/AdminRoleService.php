@@ -70,6 +70,22 @@ class AdminRoleService
         return $this->collection;
     }
 
+    public function destroy($id): Collection
+    {
+        try {
+            if ($role = Role::find($id)) {
+                $role->delete();
+                $this->collection = $this->success(['message' => 'Admin Role Deleted']);
+            } else {
+                $this->collection = $this->failed(['message' => 'Admin Role Not found'], 404);
+            }
+        } catch (Exception $ex) {
+            $this->collection = $this->failed(['errors' => $ex->getMessage()]);
+        }
+
+        return $this->collection;
+    }
+
     public function getPermissions(): Collection
     {
         $permissions = Permission::where('guard_name', 'admin')->get()->groupBy('group_name');

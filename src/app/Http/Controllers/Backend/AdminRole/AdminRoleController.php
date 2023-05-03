@@ -52,14 +52,13 @@ class AdminRoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
-        //
+        return $this->ApiResponse($this->adminRoleService->destroy($id));
     }
 
     public function getPermissions(): JsonResponse
     {
-        $response = $this->adminRoleService->getPermissions();
-        return response()->json($response->except(['status']), $response['status']);
+        return $this->ApiResponse($this->adminRoleService->getPermissions());
     }
 }

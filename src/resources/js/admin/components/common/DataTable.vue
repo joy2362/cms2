@@ -60,7 +60,6 @@
                   size="small"
                   v-bind="props"
               >
-
               </v-btn>
             </template>
             <v-list>
@@ -80,14 +79,46 @@
                   <v-icon icon="mdi-open-in-new"></v-icon>
                 </v-list-item-title>
               </v-list-item>
-              <v-list-item
-                  to="/admin/role/update/1"
-                  value="update"
+
+              <v-dialog
+                  v-model="dialog"
+                  persistent
+                  width="500"
               >
-                <v-list-item-title>
-                  <v-icon icon="mdi-delete-outline"></v-icon>
-                </v-list-item-title>
-              </v-list-item>
+                <template v-slot:activator="{ props }">
+                  <v-list-item>
+                    <v-list-item-title>
+                      <v-icon icon="mdi-delete-outline" v-bind="props"></v-icon>
+                    </v-list-item-title>
+                  </v-list-item>
+                </template>
+                <v-card>
+                  <v-toolbar
+                      :title="deleteTitle"
+                      color="warning"
+                  ></v-toolbar>
+                  <v-card-text>You will not able to revert it
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        color="primary"
+                        variant="outlined"
+                        @click="dialog = false"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                        color="red"
+                        variant="flat"
+                        @click="deleteItem(row.id)"
+                    >
+                      Yes, Delete it
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
             </v-list>
           </v-menu>
         </td>
@@ -131,7 +162,7 @@
 <script>
 import { mapWritableState } from 'pinia'
 import { useDataTableStore } from '../../stores/dataTable'
-import { collect } from '../../js/dataTable'
+import { collect, deleteItem } from '../../js/dataTable'
 
 export default {
   name: 'DataTable',
@@ -139,6 +170,11 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    dialog: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
     columns: {
       type: Array,
@@ -156,12 +192,19 @@ export default {
       type: String,
       required: false,
     },
+    delete: {
+      type: String,
+      required: false,
+    },
     show: {
       type: String,
       required: false,
     },
   },
   computed: {
+    deleteTitle () {
+      return `Delete the ${this.title}?`
+    },
     totalPage () {
       return Math.ceil((this.total / this.search.perPage))
     },
@@ -202,6 +245,9 @@ export default {
       }
       this.search.sortField = index
       this.$emit('search')
+    },
+    async deleteItem (id) {
+      await deleteItem(this, id + 12)
     }
 
   }

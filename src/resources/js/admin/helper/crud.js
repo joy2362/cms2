@@ -32,6 +32,24 @@ const crud = {
       return response
     }
 
+    app.config.globalProperties.$delete = async (url) => {
+      let response = {
+        'data': {},
+        'errors': {},
+        'error': {},
+      }
+      await instance.delete(url).then(res => {
+        response.data = res.data
+      }).catch(err => {
+        if (err.response.status === 422) {
+          response.errors = err.response.data
+        } else {
+          response.error = err.response.data
+        }
+      })
+      return response
+    }
+
     app.config.globalProperties.$post = async (url, payload = []) => {
       let response = {
         'data': {},
