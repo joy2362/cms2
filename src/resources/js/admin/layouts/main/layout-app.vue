@@ -150,7 +150,7 @@ import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
 import { useProfileStore } from '../../stores/profile'
 import { useSettingStore } from '../../stores/setting'
-import { changeTheme, logout } from './js/layout'
+import { changeTheme, logout } from '../../js/layout'
 
 export default {
   data () {

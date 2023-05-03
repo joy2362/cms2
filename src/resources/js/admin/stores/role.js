@@ -3,8 +3,9 @@ import { defineStore } from 'pinia'
 export const useAdminRoleStore = defineStore('role', {
   state: () => {
     return {
-      roles: [],
-      total: '',
+      data: [],
+      permissions: [],
+      total: 0,
       columns: [
         {
           label: 'Name',
@@ -17,79 +18,93 @@ export const useAdminRoleStore = defineStore('role', {
           sortable: true,
         },
       ],
-      breadcrumb: [
+      breadCrumb: [
         {
           title: 'Dashboard',
           disabled: false,
           href: '/admin/dashboard',
-        },
-        {
-          title: 'Role',
-          disabled: true,
-          href: '',
-        },
+        }
       ],
-      creadeBradecrumb: [],
-      createInfo: {
-        name: 'Create Role',
-        url: '/admin/role/store'
+      routes: {
+        create: {
+          name: 'Create Role',
+          to: '/admin/role/store',
+          icon: 'mdi-plus'
+        },
+        index: {
+          name: 'All Role',
+          to: '/admin/role',
+          icon: 'mdi-eye'
+        },
+      },
+      errors: [],
+      singleData: {
+        name: '',
+        permissions: []
+      },
+      apiRoutes: {
+        index: '/api/admin/role',
+        create: '/api/admin/role',
+        update: '/api/admin/role',
+        permissions: '/api/admin/get-permissions',
       }
-
     }
   },
   getters: {
-    getAllRole (state) {
-      return state.roles
-    },
-    getTotal (state) {
-      return state.total
-    },
-    getColumns (state) {
-      return state.columns
+    getData (state) {
+      return {
+        data: state.data,
+        total: state.total,
+        columns: state.columns,
+      }
     },
     getBreadcrumb (state) {
-      return state.breadcrumb
+      return state.breadCrumb
     },
-    getCreateInfo (state) {
-      return state.createInfo
+    getRoutes (state) {
+      return state.routes
     },
-    getCreadeBradecrumb (state) {
-      return state.creadeBradecrumb
+    getApiRoutes (state) {
+      return state.apiRoutes
+    },
+    getPermissions (state) {
+      return state.permissions
+    },
+    getSingleData (state) {
+      return state.singleData
     },
   },
   actions: {
-    setBradcrumb (type = 1) {
-      this.creadeBradecrumb = [
-        {
-          title: 'Dashboard',
-          disabled: false,
-          href: '/admin/dashboard',
-        },
+    setBradCrumb (type = 'index') {
+      this.breadCrumb.splice(1)
+      this.breadCrumb.push(
         {
           title: 'Role',
-          disabled: false,
-          href: '/admin/role',
-        },
-        {
-          title: type == 1 ? 'Create Role' : 'Update Role',
-          disabled: true,
-          href: '',
-        },
-      ]
+          disabled: type === 'index',
+          href: type === 'index' ? '' : '/admin/role',
+        }
+      )
+      if (type !== 'index') {
+        this.breadCrumb.push(
+          {
+            title: type === 'create' ? 'Create Role' : 'Update Role',
+            disabled: true,
+            href: '',
+          }
+        )
+      }
     },
-    setAllRole (payload = null) {
-      const token = localStorage.getItem('token')
-      let instance = axios.create({
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      })
-      instance.get('/api/admin/role', { params: payload }).then(res => {
-        if (res.status === 200) {
-          this.roles = res.data.roles.data
-          this.total = res.data.roles.total
-        }
-      })
+    setData (role) {
+      this.data = role.data
+      this.total = role.total
+    },
+    setPermissions (permissions) {
+      this.permissions = permissions
+    },
+    setSingleData (data) {
+      this.singleData.name = data.role.name
+      this.singleData.permissions = data.permissions
     }
+
   }
 })

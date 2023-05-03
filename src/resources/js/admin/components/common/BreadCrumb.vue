@@ -11,9 +11,11 @@
 
 <script>
 export default {
-  name: 'TitleBarSection',
+  name: 'BreadCrumb',
   props: ['routes'],
 }
 </script>
 
-<style></style>
+<style scoped>
+
+</style>

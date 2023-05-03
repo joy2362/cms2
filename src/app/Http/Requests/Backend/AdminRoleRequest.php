@@ -27,16 +27,16 @@ class AdminRoleRequest extends BaseRequest
     private function createRule(): array
     {
         return [
-            'name' => 'required|min:2|max:30|email',
-            'guard' => 'required|min:10|max:40',
+            'name' => 'required|min:2|max:30',
+            'permissions' => 'required',
         ];
     }
 
     private function updateRule(): array
     {
         return [
-            'name' => 'required|min:2|max:30|email',
-            'guard' => 'required|min:10|max:40',
+            'name' => 'required|min:2|max:30',
+            'permissions' => 'required',
         ];
     }
 }

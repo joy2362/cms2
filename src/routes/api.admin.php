@@ -44,5 +44,11 @@ Route::middleware('auth:sanctum')
         | Resource routes
         |--------------------------------------------------------------------------
         */
-        Route::apiResource('role', AdminRoleController::class)->middleware('permission:admin');
+        Route::middleware('permission:admin')->group(function () {
+            Route::apiResources([
+                'role' => AdminRoleController::class,
+                'demo' => ProfileController::class,
+            ]);
+        });
+        Route::get('get-permissions', [AdminRoleController::class, 'getPermissions']);
     });

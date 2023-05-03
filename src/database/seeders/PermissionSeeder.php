@@ -27,7 +27,8 @@ class PermissionSeeder extends Seeder
                 $permissions[] = [
                     'name' => $permission,
                     'guard_name' => Admin::GUARD,
-                    'group_name' => explode('.', $permission)[0]
+                    'group_name' => explode('.', $permission)[0],
+                    'title' => explode('.', $permission)[1]
                 ];
             }
         }
@@ -36,7 +37,8 @@ class PermissionSeeder extends Seeder
                 ['name' => $permission['name']],
                 [
                     'guard_name' => Admin::GUARD,
-                    'group_name' => $permission['group_name']
+                    'group_name' => $permission['group_name'],
+                    'title' => $permission['title'],
                 ]
             );
         }

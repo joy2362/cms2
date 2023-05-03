@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      <titleBar :routes="routes" :title="title" class="mb"></titleBar>
+      <TitleBar :routes="routes" :title="title" class="mb"></TitleBar>
       <v-row>
         <v-col cols="cols">
           <panelComponentVue
@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import titleBar from '../components/titlebar/TitleBarSection.vue'
 import panelComponentVue from '../components/dashboard/panel-component.vue'
 import chartComponentVue from '../components/dashboard/chart-component.vue'
 import popularProductComponentVue from '../components/dashboard/popular-product-component.vue'
@@ -72,7 +71,6 @@ import FooterSection from '../components/footer/FooterSection.vue'
 
 export default {
   components: {
-    titleBar,
     panelComponentVue,
     chartComponentVue,
     popularProductComponentVue,

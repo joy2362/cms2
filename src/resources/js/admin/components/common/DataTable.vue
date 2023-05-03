@@ -1,12 +1,5 @@
 <template>
   <div ref="table">
-    <v-toolbar :title="title">
-      <v-tooltip :text="createInfo.name">
-        <template v-slot:activator="{ props }">
-          <v-btn :to="createInfo.url" icon="mdi-plus" v-bind="props" variant="tonal"></v-btn>
-        </template>
-      </v-tooltip>
-    </v-toolbar>
     <v-sheet class="py-4">
       <v-row>
         <v-col cols="2">
@@ -58,7 +51,46 @@
             {{ collect(row, column.field) }}
           </div>
         </td>
-        <td>-</td>
+        <td>
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <v-btn
+                  color="primary"
+                  icon="mdi-dots-vertical"
+                  size="small"
+                  v-bind="props"
+              >
+
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                  :to="generateUpdateLink(row.id)"
+                  value="update"
+              >
+                <v-list-item-title>
+                  <v-icon icon="mdi-update"></v-icon>
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item
+                  to="/admin/role/update/1"
+                  value="show"
+              >
+                <v-list-item-title>
+                  <v-icon icon="mdi-open-in-new"></v-icon>
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item
+                  to="/admin/role/update/1"
+                  value="update"
+              >
+                <v-list-item-title>
+                  <v-icon icon="mdi-delete-outline"></v-icon>
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </td>
         <slot :row="row" name="tbody-tr"/>
       </tr>
       </tbody>
@@ -97,15 +129,38 @@
 </template>
 
 <script>
-import props from './props/props'
-import { collect } from './js/dataTable'
 import { mapWritableState } from 'pinia'
 import { useDataTableStore } from '../../stores/dataTable'
+import { collect } from '../../js/dataTable'
 
 export default {
-  name: 'dataTable',
-  props: props,
-
+  name: 'DataTable',
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    columns: {
+      type: Array,
+      required: true,
+    },
+    rows: {
+      type: Array,
+      required: true,
+    },
+    total: {
+      type: [String, Number],
+      required: true,
+    },
+    update: {
+      type: String,
+      required: false,
+    },
+    show: {
+      type: String,
+      required: false,
+    },
+  },
   computed: {
     totalPage () {
       return Math.ceil((this.total / this.search.perPage))
@@ -127,6 +182,9 @@ export default {
     ...mapWritableState(useDataTableStore, { search: 'search', perPage: 'perPage', totalVisible: 'totalVisible' }),
   },
   methods: {
+    generateUpdateLink (id) {
+      return this.update ? `${this.update}/${id}` : `/admin/${this.title.toLowerCase()}/update/${id}`
+    },
     getIndex (index) {
       return index + (this.search.perPage * (this.search.page - 1)) + 1
     },

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\AdminRole;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\AdminRoleRequest;
 use App\Services\Backend\AdminRoleService;
 use Illuminate\Http\{JsonResponse, Request};
 
@@ -24,25 +25,28 @@ class AdminRoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AdminRoleRequest $request): JsonResponse
     {
-        //
+        $response = $this->adminRoleService->store($request);
+        return response()->json($response->except(['status']), $response['status']);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
-        //
+        $response = $this->adminRoleService->show($id);
+        return response()->json($response->except(['status']), $response['status']);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AdminRoleRequest $request, string $id): JsonResponse
     {
-        //
+        $response = $this->adminRoleService->update($request, $id);
+        return response()->json($response->except(['status']), $response['status']);
     }
 
     /**
@@ -51,5 +55,11 @@ class AdminRoleController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getPermissions(): JsonResponse
+    {
+        $response = $this->adminRoleService->getPermissions();
+        return response()->json($response->except(['status']), $response['status']);
     }
 }

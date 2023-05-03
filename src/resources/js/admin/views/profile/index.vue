@@ -2,7 +2,7 @@
   <div>
     <GlobalLoading/>
     <v-container>
-      <TitleBarSection :routes="routes"></TitleBarSection>
+      <TitleBar :routes="routes"></TitleBar>
       <ProfileBanner class="mb"></ProfileBanner>
       <v-row>
         <v-col lg="6" sm="12">
@@ -20,16 +20,16 @@
 </template>
 
 <script>
-import TitleBarSection from '../../components/titlebar/TitleBarSection.vue'
 import ProfileBanner from '../../components/profile/ProfileBanner.vue'
 import ProfileUpdate from '../../components/profile/ProfileUpdate.vue'
 import PasswordUpdate from '../../components/profile/PasswordUpdate.vue'
 import FooterSection from '../../components/footer/FooterSection.vue'
+import TitleBar from '../../components/common/TitleBar.vue'
 
 export default {
   name: 'AdminProfile',
   components: {
-    TitleBarSection,
+    TitleBar,
     ProfileBanner,
     ProfileUpdate,
     PasswordUpdate,

@@ -1,44 +1,48 @@
 <template>
   <v-container>
-    <TitleBarSection :routes="getBreadcrumb"></TitleBarSection>
-    <DataTable :columns='getColumns' :createInfo="getCreateInfo" :rows='getAllRole' :total="getTotal"
+    <BreadCrumb :routes="getBreadcrumb"></BreadCrumb>
+    <TitleBar :route="getRoutes.create" :title="getRoutes.index.name"></TitleBar>
+    <DataTable :columns='getData.columns' :rows='getData.data' :total="getData.total"
                title="Role" @search="search"/>
   </v-container>
 </template>
 
 <script>
-import DataTable from '../../components/data-table/index.vue'
-import TitleBarSection from '../../components/titlebar/TitleBarSection.vue'
 import FooterSection from '../../components/footer/FooterSection.vue'
 import { mapActions, mapState } from 'pinia'
 import { useAdminRoleStore } from '../../stores/role'
 import { useDataTableStore } from '../../stores/dataTable'
+import BreadCrumb from '../../components/common/BreadCrumb.vue'
+import TitleBar from '../../components/common/TitleBar.vue'
+import DataTable from '../../components/common/DataTable.vue'
+import { getRoles } from '../../js/role'
 
 export default {
   name: 'admin.index',
-  components: { FooterSection, TitleBarSection, DataTable },
+  components: { DataTable, TitleBar, BreadCrumb, FooterSection },
   methods: {
     ...mapActions(useAdminRoleStore, {
-      setAllRole: 'setAllRole',
+      setData: 'setData',
+      setBradCrumb: 'setBradCrumb',
     }),
-    search () {
-      this.setAllRole(this.getSearch)
-    }
+    async search () {
+      await getRoles(this, this.getSearch)
+    },
   },
   computed: {
     ...mapState(useAdminRoleStore, {
-      getAllRole: 'getAllRole',
-      getColumns: 'getColumns',
+      getData: 'getData',
       getBreadcrumb: 'getBreadcrumb',
-      getTotal: 'getTotal',
-      getCreateInfo: 'getCreateInfo',
+      getRoutes: 'getRoutes',
+      getApiRoutes: 'getApiRoutes',
     }),
     ...mapState(useDataTableStore, {
       getSearch: 'getSearch',
     }),
   },
   mounted () {
-    this.setAllRole(this.getSearch)
+    this.setBradCrumb()
+    this.search()
   }
 }
 </script>
