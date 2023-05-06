@@ -17,6 +17,6 @@ export const deleteItem = async (_this, id) => {
   }
   if (res.error.message) {
     _this.$error(res.error.message)
-    _this.dialog = false
+    _this.showDeleteWarning = false
   }
 }

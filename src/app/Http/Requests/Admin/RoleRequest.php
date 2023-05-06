@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Backend;
+namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\Base\BaseRequest;
 
-class AdminRoleRequest extends BaseRequest
+class RoleRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

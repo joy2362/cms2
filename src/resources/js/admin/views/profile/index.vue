@@ -1,22 +1,20 @@
 <template>
-  <div>
+  <v-container>
     <GlobalLoading/>
-    <v-container>
-      <TitleBar :routes="routes"></TitleBar>
-      <ProfileBanner class="mb"></ProfileBanner>
-      <v-row>
-        <v-col lg="6" sm="12">
-          <ProfileUpdate></ProfileUpdate>
-        </v-col>
-        <v-col lg="6" sm="12">
-          <PasswordUpdate></PasswordUpdate>
-        </v-col>
-      </v-row>
-      <v-row>
-        <FooterSection></FooterSection>
-      </v-row>
-    </v-container>
-  </div>
+    <BreadCrumb :routes="getBreadCrumb"></BreadCrumb>
+    <ProfileBanner class="mb"></ProfileBanner>
+    <v-row>
+      <v-col lg="6" sm="12">
+        <ProfileUpdate></ProfileUpdate>
+      </v-col>
+      <v-col lg="6" sm="12">
+        <PasswordUpdate></PasswordUpdate>
+      </v-col>
+    </v-row>
+    <v-row>
+      <FooterSection></FooterSection>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -24,34 +22,22 @@ import ProfileBanner from '../../components/profile/ProfileBanner.vue'
 import ProfileUpdate from '../../components/profile/ProfileUpdate.vue'
 import PasswordUpdate from '../../components/profile/PasswordUpdate.vue'
 import FooterSection from '../../components/footer/FooterSection.vue'
-import TitleBar from '../../components/common/TitleBar.vue'
+import BreadCrumb from '../../components/common/BreadCrumb.vue'
+import { mapState } from 'pinia'
+import { useProfileStore } from '../../stores/profile'
 
 export default {
   name: 'AdminProfile',
   components: {
-    TitleBar,
+    BreadCrumb,
     ProfileBanner,
     ProfileUpdate,
     PasswordUpdate,
     FooterSection
   },
-
-  data: () => ({
-    routes: [
-      {
-        title: 'Dashboard',
-        disabled: false,
-        href: '/admin/dashboard',
-      },
-      {
-        title: 'Profile',
-        disabled: true,
-        href: '',
-      },
-    ],
-  }),
-  methods: {}
-
+  computed: {
+    ...mapState(useProfileStore, { getBreadCrumb: 'getBreadCrumb' })
+  },
 }
 </script>
 

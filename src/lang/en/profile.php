@@ -14,5 +14,6 @@ return [
     */
 
     'success' => 'Profile update Successfully.',
+    'avatar' => 'Profile Image Successfully.',
     'failed' => 'Profile update Failed.',
 ];

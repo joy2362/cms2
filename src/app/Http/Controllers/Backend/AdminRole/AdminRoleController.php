@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Backend\AdminRole;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\AdminRoleRequest;
+use App\Http\Requests\Admin\RoleRequest;
 use App\Services\Backend\AdminRoleService;
 use Illuminate\Http\{JsonResponse, Request};
 
 class AdminRoleController extends Controller
 {
-    public function __construct(private readonly AdminRoleService $adminRoleService)
+    public function __construct(private readonly AdminRoleService $service)
     {
     }
 
@@ -18,17 +18,15 @@ class AdminRoleController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $response = $this->adminRoleService->index($request);
-        return response()->json($response->except(['status']), $response['status']);
+        return ApiResponse($this->service->index($request));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AdminRoleRequest $request): JsonResponse
+    public function store(RoleRequest $request): JsonResponse
     {
-        $response = $this->adminRoleService->store($request);
-        return response()->json($response->except(['status']), $response['status']);
+        return ApiResponse($this->service->store($request));
     }
 
     /**
@@ -36,17 +34,15 @@ class AdminRoleController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $response = $this->adminRoleService->show($id);
-        return response()->json($response->except(['status']), $response['status']);
+        return ApiResponse($this->service->show($id));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdminRoleRequest $request, string $id): JsonResponse
+    public function update(RoleRequest $request, string $id): JsonResponse
     {
-        $response = $this->adminRoleService->update($request, $id);
-        return response()->json($response->except(['status']), $response['status']);
+        return ApiResponse($this->service->update($request, $id));
     }
 
     /**
@@ -54,11 +50,11 @@ class AdminRoleController extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        return $this->ApiResponse($this->adminRoleService->destroy($id));
+        return ApiResponse($this->service->destroy($id));
     }
 
     public function getPermissions(): JsonResponse
     {
-        return $this->ApiResponse($this->adminRoleService->getPermissions());
+        return ApiResponse($this->service->getPermissions());
     }
 }

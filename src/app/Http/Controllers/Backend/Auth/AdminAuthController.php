@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Backend\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\AdminForgetPasswordRequest;
-use App\Http\Requests\Backend\AdminResetPasswordRequest;
+use App\Http\Requests\Admin\{ForgetPasswordRequest, LoginRequest, ResetPasswordRequest};
 use App\Services\Backend\AdminAuthService;
 use Illuminate\Http\{JsonResponse, Request};
 
 class AdminAuthController extends Controller
 {
-    public function __construct(private readonly AdminAuthService $adminAuthService)
+    public function __construct(private readonly AdminAuthService $service)
     {
     }
 
@@ -21,42 +20,23 @@ class AdminAuthController extends Controller
         ]);
     }
 
+    public function login(LoginRequest $request): JsonResponse
+    {
+        return ApiResponse($this->service->login($request));
+    }
+
     public function logout(Request $request): JsonResponse
     {
-        try {
-            $response = $this->adminAuthService->logout($request);
-            return response()->json($response->except(['status']), $response['status']);
-        } catch (\Exception $ex) {
-            return response()->json([
-                'success' => false,
-                'errors' => $ex->getMessage(),
-            ], 422);
-        }
+        return ApiResponse($this->service->logout($request));
     }
 
-    public function forgetPassword(AdminForgetPasswordRequest $request): JsonResponse
+    public function forgetPassword(ForgetPasswordRequest $request): JsonResponse
     {
-        try {
-            $response = $this->adminAuthService->forgetPassword($request);
-            return response()->json($response->except(['status']), $response['status']);
-        } catch (\Exception $ex) {
-            return response()->json([
-                'success' => false,
-                'errors' => $ex->getMessage(),
-            ], 422);
-        }
+        return ApiResponse($this->service->forgetPassword($request));
     }
 
-    public function passwordReset(AdminResetPasswordRequest $request): JsonResponse
+    public function passwordReset(ResetPasswordRequest $request): JsonResponse
     {
-        try {
-            $response = $this->adminAuthService->passwordReset($request);
-            return response()->json($response->except(['status']), $response['status']);
-        } catch (\Exception $ex) {
-            return response()->json([
-                'success' => false,
-                'errors' => $ex->getMessage(),
-            ], 422);
-        }
+        return ApiResponse($this->service->passwordReset($request));
     }
 }

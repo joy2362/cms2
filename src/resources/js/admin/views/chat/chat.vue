@@ -1,5 +1,4 @@
 <template>
-  <div>
     <v-container>
       <v-row>
         <v-col lg="3" sm="3">
@@ -10,17 +9,14 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
 </template>
 
 <script>
-import titlebarComponent from '../../components/titlebar/TitleBarSection.vue'
 import chatBox from '../../components/chat-box/chatBox.vue'
 import chatList from '../../components/chat-box/chatList.vue'
 
 export default {
   components: {
-    titlebarComponent,
     chatBox,
     chatList
   },

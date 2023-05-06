@@ -2,15 +2,18 @@
   <v-dialog
       v-model="getShowChangeAvatar"
       persistent
-      width="1024"
+      width="500"
   >
     <v-card>
-      <v-card-title>
-        <span class="text-h5">Profile Picture</span>
-      </v-card-title>
+      <v-toolbar
+          color="primary"
+          title="Profile Picture"
+      ></v-toolbar>
       <v-card-text>
         <v-container>
-          <v-file-input :clearable="false" label="Avatar" @input="onSelect"></v-file-input>
+          <v-file-input :clearable="false" accept="image/png, image/jpeg, image/bmp" label="Profile Picture" prepend-icon="mdi-camera"
+                        show-size
+                        @input="onSelect"></v-file-input>
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -38,19 +41,23 @@
 import { mapActions, mapState } from 'pinia'
 import { useGlobalStore } from '../../../stores/global'
 import { useProfileStore } from '../../../stores/profile'
+import { updateAvatar } from '../../../js/profile'
 
 export default {
   name: 'ChangeAvatar',
   computed: {
-    ...mapState(useGlobalStore, { getShowChangeAvatar: 'getShowChangeAvatar' })
+    ...mapState(useProfileStore, {
+      getApiRoutes: 'getApiRoutes',
+      getShowChangeAvatar: 'getShowChangeAvatar',
+      getAvatar: 'getAvatar'
+    })
   },
   methods: {
-    ...mapActions(useGlobalStore, { setShowChangeAvatar: 'setShowChangeAvatar' }),
-    ...mapActions(useProfileStore, { setAvatar: 'setAvatar' }),
+    ...mapActions(useProfileStore, { setShowChangeAvatar: 'setShowChangeAvatar', setAvatar: 'setAvatar' }),
+    ...mapActions(useGlobalStore, { setGlobalLoading: 'setGlobalLoading' }),
 
     showProfileUpdate () {
-      this.setAvatar('')
-      this.setShowChangeAvatar(false)
+      updateAvatar(this)
     },
     onSelect (event) {
       this.setAvatar(event.target.files[0])

@@ -22,4 +22,20 @@ class BaseRequest extends FormRequest
             ], Response::HTTP_UNPROCESSABLE_ENTITY)
         );
     }
+
+    /**
+     * Handle a failed authorization attempt.
+     *
+     * @return void
+     *
+     */
+    protected function failedAuthorization(): void
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'success' => false,
+                'message' => "test"
+            ], Response::HTTP_UNAUTHORIZED)
+        );
+    }
 }

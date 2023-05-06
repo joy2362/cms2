@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 export const useGlobalStore = defineStore('global', {
   state: () => {
     return {
-      showChangeAvatar: false,
       logo: import.meta.env.VITE_APP_URL + '/assets/logo/logo.png',
       loading: {
         show: false,
@@ -15,9 +14,6 @@ export const useGlobalStore = defineStore('global', {
     }
   },
   getters: {
-    getShowChangeAvatar (state) {
-      return state.showChangeAvatar
-    },
     getLoading (state) {
       return state.loading
     },
@@ -26,9 +22,6 @@ export const useGlobalStore = defineStore('global', {
     }
   },
   actions: {
-    setShowChangeAvatar (payload) {
-      this.showChangeAvatar = payload
-    },
     setGlobalLoading (payload) {
       this.loading.show = payload
     },

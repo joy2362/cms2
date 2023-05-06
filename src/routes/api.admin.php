@@ -3,7 +3,6 @@
 use App\Http\Controllers\Backend\{
     AdminRole\AdminRoleController,
     Auth\AdminAuthController,
-    Auth\LoginController,
     Auth\ProfileController
 };
 use Illuminate\Support\Facades\Route;
@@ -14,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::post('/login', LoginController::class);
-Route::post('/forget-password', [AdminAuthController::class, 'forgetPassword']);
-Route::post('/password-reset', [AdminAuthController::class, 'passwordReset']);
+Route::controller(AdminAuthController::class)->group(function () {
+    Route::get('/forget-password', 'forgetPassword');
+    Route::post('/password-reset', 'passwordReset');
+    Route::post('/login', 'login');
+});
 
 Route::middleware('auth:sanctum')
     ->group(function () {
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum')
             Route::get('/', 'profile');
             Route::post('/password', 'changePassword');
             Route::post('/general', 'changeGeneral');
+            Route::post('/image', 'changeProfileImage');
         });
         /*
         |--------------------------------------------------------------------------

@@ -12,7 +12,12 @@
 <script>
 export default {
   name: 'BreadCrumb',
-  props: ['routes'],
+  props: {
+    routes: {
+      type: Array,
+      required: true,
+    },
+  }
 }
 </script>
 

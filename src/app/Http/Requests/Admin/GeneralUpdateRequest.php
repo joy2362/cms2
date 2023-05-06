@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Backend;
+namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\Base\BaseRequest;
 
-class AdminGeneralUpdateRequest extends BaseRequest
+class GeneralUpdateRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,8 @@ class AdminGeneralUpdateRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:2|max:30',
-            'email' => 'required|min:2|max:30|email',
+            'name' => 'nullable|sometimes|required_without:email|min:2|max:30',
+            'email' => 'nullable|sometimes|required_without:name|min:2|max:30|email',
         ];
     }
 }

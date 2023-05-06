@@ -1,5 +1,5 @@
 <template>
-  <v-footer elevation="4">
+  <v-footer>
     <v-row justify="center" no-gutters>
       Make with
       <v-icon color="red-darken-2">mdi-heart</v-icon>

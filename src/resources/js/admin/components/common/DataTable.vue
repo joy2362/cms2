@@ -81,7 +81,7 @@
               </v-list-item>
 
               <v-dialog
-                  v-model="dialog"
+                  v-model="showDeleteWarning"
                   persistent
                   width="500"
               >
@@ -104,7 +104,7 @@
                     <v-btn
                         color="primary"
                         variant="outlined"
-                        @click="dialog = false"
+                        @click="showDeleteWarning = false"
                     >
                       Cancel
                     </v-btn>
@@ -171,11 +171,6 @@ export default {
       type: String,
       required: true,
     },
-    dialog: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
     columns: {
       type: Array,
       required: true,
@@ -222,7 +217,12 @@ export default {
       })
       return fields
     },
-    ...mapWritableState(useDataTableStore, { search: 'search', perPage: 'perPage', totalVisible: 'totalVisible' }),
+    ...mapWritableState(useDataTableStore, {
+      search: 'search',
+      perPage: 'perPage',
+      totalVisible: 'totalVisible',
+      showDeleteWarning: 'showDeleteWarning'
+    }),
   },
   methods: {
     generateUpdateLink (id) {

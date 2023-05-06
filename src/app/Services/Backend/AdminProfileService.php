@@ -4,7 +4,9 @@ namespace App\Services\Backend;
 
 use App\Models\Users\Admin;
 use App\Traits\Backend\ServiceReturnCollection;
-use Illuminate\Support\{Collection, Facades\Hash};
+use Illuminate\Support\{Collection, Facades\Auth, Facades\Hash};
+use Exception;
+use Illuminate\Http\Request;
 
 /**
  * handle admin profile related task
@@ -38,9 +40,31 @@ class AdminProfileService
      */
     public function updateGeneral($request): Collection
     {
-        $this->collection = $this->updateProfile($request->user()->id, $request->validated())
+        $data = [];
+        if (!empty($request->validated()['name'])) {
+            $data['name'] = $request->validated()['name'];
+        }
+        if (!empty($request->validated()['email'])) {
+            $data['email'] = $request->validated()['email'];
+        }
+        $this->collection = $this->updateProfile($request->user()->id, $data)
             ? $this->success(['message' => trans('profile.success')])
             : $this->failed(['error' => trans('profile.failed')]);
+        return $this->collection;
+    }
+
+    public function changeProfileImage(Request $request): Collection
+    {
+        try {
+            $admin = Admin::find(Auth::id());
+            $url = upload($request->file('avatar'), "admin/avatar", $admin->avatar);
+            $admin->update([
+                'avatar' => $url
+            ]);
+            $this->collection = $this->success(['message' => trans('profile.avatar')]);
+        } catch (Exception $ex) {
+            $this->collection = $this->failed(['error' => $ex->getMessage()]);
+        }
         return $this->collection;
     }
 

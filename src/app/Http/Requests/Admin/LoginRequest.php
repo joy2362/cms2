@@ -1,30 +1,31 @@
 <?php
 
-namespace App\Http\Requests\Backend;
+namespace App\Http\Requests\Admin;
 
 use App\Http\Requests\Base\BaseRequest;
 
-class AdminPasswordUpdateRequest extends BaseRequest
+class LoginRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
-        return auth('sanctum')->check();
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function rules(): array
     {
         return [
-            'oldPassword' => 'required|min:6|max:20',
-            'newPassword' => 'required|min:6|max:20|same:confirmPassword',
-            'confirmPassword' => 'required|min:6|max:20',
+            'email' => 'required|min:2|max:30|email',
+            'password' => 'required|min:6|max:25',
         ];
     }
 }

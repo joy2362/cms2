@@ -12,7 +12,8 @@ export const useDataTableStore = defineStore('dataTable', {
         sortBy: 'desc',
       },
       perPage: [5, 10, 15, 20, 25, 50, 100],
-      totalVisible: 4
+      totalVisible: 4,
+      showDeleteWarning: false
     }
   },
   getters: {

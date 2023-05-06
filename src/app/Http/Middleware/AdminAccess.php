@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Facades\GlobalHelperFacade;
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -23,7 +22,7 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next, $guard)
     {
-        $permission = GlobalHelperFacade::getPermissionNameFromRoute(Route::current()->action['controller']);
+        $permission = getPermissionNameFromRoute(Route::current()->action['controller']);
         if (!empty($guard) && !empty($permission) && !Auth::user()->can($permission)) {
             return $request->wantsJson() ? response("You Dont Have Enough permission", 403) : abort(
                 '403',

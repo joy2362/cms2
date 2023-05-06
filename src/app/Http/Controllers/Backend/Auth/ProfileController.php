@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Backend\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\AdminGeneralUpdateRequest;
-use App\Http\Requests\Backend\AdminPasswordUpdateRequest;
+use App\Http\Requests\Admin\{ProfileImageRequest, GeneralUpdateRequest, PasswordUpdateRequest};
 use App\Services\Backend\AdminProfileService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\{JsonResponse, Request};
+
 
 class ProfileController extends Controller
 {
+    public function __construct(public AdminProfileService $service)
+    {
+    }
+
     public function profile(Request $request): JsonResponse
     {
         return response()->json([
@@ -19,29 +22,18 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function changePassword(AdminPasswordUpdateRequest $request): JsonResponse
+    public function changePassword(PasswordUpdateRequest $request): JsonResponse
     {
-        try {
-            $response = (new AdminProfileService())->updatePassword($request);
-            return response()->json($response->except(['status']), $response['status']);
-        } catch (\Exception $ex) {
-            return response()->json([
-                'success' => false,
-                'errors' => $ex->getMessage(),
-            ], 422);
-        }
+        return apiResponse($this->service->updatePassword($request));
     }
 
-    public function changeGeneral(AdminGeneralUpdateRequest $request): JsonResponse
+    public function changeGeneral(GeneralUpdateRequest $request): JsonResponse
     {
-        try {
-            $response = (new AdminProfileService())->updateGeneral($request);
-            return response()->json($response->except(['status']), $response['status']);
-        } catch (\Exception $ex) {
-            return response()->json([
-                'success' => false,
-                'errors' => $ex->getMessage(),
-            ], 422);
-        }
+        return apiResponse($this->service->updateGeneral($request));
+    }
+
+    public function changeProfileImage(ProfileImageRequest $request): JsonResponse
+    {
+        return apiResponse($this->service->changeProfileImage($request));
     }
 }

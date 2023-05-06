@@ -2,7 +2,6 @@
 
 namespace Database\Seeders\ModelSeeders;
 
-use App\Facades\GlobalHelperFacade;
 use App\Models\Users\Admin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +24,7 @@ class RoleSeeder extends Seeder
         $permissions = [];
         foreach ($routes as $route) {
             if (in_array('permission:admin', $route->action['middleware'])) {
-                $permission = GlobalHelperFacade::getPermissionNameFromRoute($route->action['controller']);
+                $permission = getPermissionNameFromRoute($route->action['controller']);
                 $permissions[] = [
                     'name' => $permission,
                     'guard_name' => Admin::GUARD,

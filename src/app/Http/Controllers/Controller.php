@@ -13,9 +13,4 @@ class Controller extends BaseController
     use AuthorizesRequests;
     use DispatchesJobs;
     use ValidatesRequests;
-
-    public function ApiResponse($response): JsonResponse
-    {
-        return response()->json($response->except(['status']), $response['status']);
-    }
 }

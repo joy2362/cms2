@@ -74,10 +74,14 @@ class AdminRoleService
     {
         try {
             if ($role = Role::find($id)) {
-                $role->delete();
-                $this->collection = $this->success(['message' => 'Admin Role Deleted']);
+                if ($role->type !== 'administrator') {
+                    $role->delete();
+                    $this->collection = $this->success(['message' => 'Role Deleted']);
+                } else {
+                    $this->collection = $this->failed(['message' => 'Role Not deletable'], 404);
+                }
             } else {
-                $this->collection = $this->failed(['message' => 'Admin Role Not found'], 404);
+                $this->collection = $this->failed(['message' => 'Role Not found'], 404);
             }
         } catch (Exception $ex) {
             $this->collection = $this->failed(['errors' => $ex->getMessage()]);

@@ -4,54 +4,82 @@ export const useProfileStore = defineStore('profile', {
   state: () => {
     return {
       profile: [],
-      general: {
+      form: {
         name: '',
         email: '',
-      },
-      avatar: '',
-      password: {
+        avatar: '',
         oldPassword: '',
         newPassword: '',
         confirmPassword: '',
-        showOldPassword: false,
-        showNewPassword: false,
-        showConfirmPassword: false,
       },
-      passwordErrors: [],
-      generalErrors: [],
-      passwordUpdateUrl: 'profile/password',
-      generalUpdateUrl: 'profile/general',
+      showChangeAvatar: false,
+      showBtn: {
+        old: false,
+        new: false,
+        confirm: false,
+      },
+      breadCrumb: [
+        {
+          title: 'Dashboard',
+          disabled: false,
+          href: '/admin/dashboard',
+        },
+        {
+          title: 'Profile',
+          disabled: true,
+          href: '',
+        },
+      ],
+      errors: {
+        password: [],
+        general: [],
+      },
+      apiRoutes: {
+        passwordUpdate: '/api/admin/profile/password',
+        generalUpdate: '/api/admin/profile/general',
+        avatarUpdate: '/api/admin/profile/image',
+        getProfile: '/api/admin/profile/profile',
+      },
     }
   },
   getters: {
     getProfile (state) {
       return state.profile
     },
-    getGeneralProfile (state) {
-      return state.general
+    getGeneralForm (state) {
+      return {
+        name: state.form.name,
+        email: state.form.email
+      }
     },
     getPasswordForm (state) {
       return {
-        oldPassword: state.password.oldPassword,
-        newPassword: state.password.newPassword,
-        confirmPassword: state.password.confirmPassword,
+        oldPassword: state.form.oldPassword,
+        newPassword: state.form.newPassword,
+        confirmPassword: state.form.confirmPassword,
       }
     },
-    getPasswordErrors (state) {
-      return state.passwordErrors
+    getErrors (state) {
+      return state.errors
     },
-    getPasswordUpdateUrl (state) {
-      return state.passwordUpdateUrl
+    getBreadCrumb (state) {
+      return state.breadCrumb
     },
-    getGeneralErrors (state) {
-      return state.generalErrors
+    getApiRoutes (state) {
+      return state.apiRoutes
     },
-    getGeneralUpdateUrl (state) {
-      return state.generalUpdateUrl
-    }
+    getShowChangeAvatar (state) {
+      return state.showChangeAvatar
+    },
+    getAvatar (state) {
+      return state.form.avatar
+    },
   },
   actions: {
-    setProfile () {
+    setShowChangeAvatar (payload) {
+      this.showChangeAvatar = payload
+    },
+    setProfile (payload = []) {
       const token = localStorage.getItem('token')
       const config = {
         headers: {
@@ -60,30 +88,25 @@ export const useProfileStore = defineStore('profile', {
       }
       axios.get('/api/admin/profile', config).then(res => {
         this.profile = res.data.profile ?? []
-        this.general = {
+        this.form = {
           name: res.data.profile.name ?? '',
           email: res.data.profile.email ?? ''
         }
       })
     },
     setAvatar (payload) {
-      this.avatar = payload
+      this.form.avatar = payload
     },
 
-    resetPasswordForm () {
-      this.password = {
-        oldPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-        showOldPassword: false,
-        showNewPassword: false,
-        showConfirmPassword: false,
-      }
-      this.passwordErrors = []
+    setPasswordForm (payload) {
+      this.form.oldPassword = payload.oldPassword
+      this.form.newPassword = payload.newPassword
+      this.form.confirmPassword = payload.confirmPassword
+      this.errors.password = []
     },
 
-    resetGeneralForm () {
-      this.generalErrors = []
+    setGeneralForm () {
+      this.errors.general = []
     },
   }
 })

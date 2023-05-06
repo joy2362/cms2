@@ -4,15 +4,15 @@
     <v-container>
       <v-form @submit.prevent="submit">
         <v-text-field
-            v-model="general.name"
-            :error="!!generalErrors.name"
-            :error-messages="generalErrors.name"
+            v-model="form.name"
+            :error="!!errors.general.name"
+            :error-messages="errors.general.name"
             label="Name"
         ></v-text-field>
         <v-text-field
-            v-model="general.email"
-            :error="!!generalErrors.email"
-            :error-messages="generalErrors.email"
+            v-model="form.email"
+            :error="!!errors.general.email"
+            :error-messages="errors.general.email"
             label="email"
         ></v-text-field>
 
@@ -26,17 +26,17 @@
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useProfileStore } from '../../stores/profile'
 import { useGlobalStore } from '../../stores/global'
-import { generalUpdate } from './js/profile'
+import { generalUpdate } from '../../js/profile'
 
 export default {
   name: 'ProfileUpdate',
   computed: {
-    ...mapWritableState(useProfileStore, { general: 'general', generalErrors: 'generalErrors' }),
-    ...mapState(useProfileStore, { getGeneralProfile: 'getGeneralProfile', getGeneralUpdateUrl: 'getGeneralUpdateUrl' })
+    ...mapWritableState(useProfileStore, { form: 'form', errors: 'errors' }),
+    ...mapState(useProfileStore, { getGeneralForm: 'getGeneralForm', getApiRoutes: 'getApiRoutes' })
   },
   methods: {
     ...mapActions(useGlobalStore, { setGlobalLoading: 'setGlobalLoading' }),
-    ...mapActions(useProfileStore, { setProfile: 'setProfile', resetGeneralForm: 'resetGeneralForm' }),
+    ...mapActions(useProfileStore, { setProfile: 'setProfile', setGeneralForm: 'setGeneralForm' }),
 
     async submit () {
       await generalUpdate(this)
