@@ -23,7 +23,7 @@
 <script>
 import { mapActions, mapState } from 'pinia'
 import { useProfileStore } from '../../stores/profile'
-import ChangeAvatar from './assets/ChangeAvatar.vue'
+import ChangeAvatar from './ChangeAvatar.vue'
 
 export default {
   name: 'ProfileBanner',

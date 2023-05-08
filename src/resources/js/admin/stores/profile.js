@@ -33,12 +33,13 @@ export const useProfileStore = defineStore('profile', {
       errors: {
         password: [],
         general: [],
+        image: [],
       },
       apiRoutes: {
         passwordUpdate: '/api/admin/profile/password',
         generalUpdate: '/api/admin/profile/general',
         avatarUpdate: '/api/admin/profile/image',
-        getProfile: '/api/admin/profile/profile',
+        getProfile: '/api/admin/profile',
       },
     }
   },
@@ -78,6 +79,13 @@ export const useProfileStore = defineStore('profile', {
   actions: {
     setShowChangeAvatar (payload) {
       this.showChangeAvatar = payload
+    },
+    profileSet (payload = []) {
+      this.profile = payload?.profile ?? []
+      this.form = {
+        name: payload?.profile.name ?? '',
+        email: payload?.profile.email ?? ''
+      }
     },
     setProfile (payload = []) {
       const token = localStorage.getItem('token')

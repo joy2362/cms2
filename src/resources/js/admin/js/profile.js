@@ -23,12 +23,13 @@ export const updateAvatar = async (_this) => {
     _this.$success(res.data.message)
     _this.setAvatar('')
     _this.setShowChangeAvatar(false)
+    await setProfile(_this)
   }
   if (res.errors?.error) {
     _this.$error(res.errors?.error)
   }
   if (res.errors?.errors) {
-    _this.errors.password = res.errors?.errors
+    _this.errors.image = res.errors?.errors
   }
   _this.setGlobalLoading(false)
 }
@@ -52,5 +53,7 @@ export const generalUpdate = async (_this) => {
 
 export const setProfile = async (_this) => {
   const res = await _this.$get(_this.getApiRoutes.getProfile)
-  console.log(res)
+  if (res.data?.success) {
+    _this.profileSet(res.data)
+  }
 }
