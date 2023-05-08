@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\{ProfileImageRequest, GeneralUpdateRequest, Password
 use App\Services\Backend\AdminProfileService;
 use Illuminate\Http\{JsonResponse, Request};
 
-
 class ProfileController extends Controller
 {
     public function __construct(public AdminProfileService $service)
