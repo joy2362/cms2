@@ -2,7 +2,6 @@
   <v-app>
     <GlobalLoading/>
     <div class="main-bg">
-
       <v-card
           class="card-login"
           elevation="2"
@@ -30,18 +29,17 @@
 
             <v-text-field
                 v-model="login.password"
-                :append-icon="login.showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                :append-icon="showBtn.loginPass ? 'mdi-eye' : 'mdi-eye-off'"
                 :error="!!errors.password"
                 :error-messages="errors.password"
-                :type="login.showPass ? 'text' : 'password'"
+                :type="showBtn.loginPass ? 'text' : 'password'"
                 color="primary"
                 density="compact"
                 label="Password"
                 variant="underlined"
-                @click:append="login.showPass = !login.showPass"
+                @click:append="showBtn.loginPass = !showBtn.loginPass"
             ></v-text-field>
-            <v-list-item :to="{path: '/admin/forget-password'}">Forgot Password?</v-list-item>
-
+            <v-btn :to="{path: '/admin/forget-password'}" plain>Forgot Password?</v-btn>
           </div>
           <div class="login-button">
 
@@ -63,12 +61,15 @@
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
 import { useGlobalStore } from '../../stores/global'
-import { login } from './js/auth'
+import { login } from '../../js/auth'
 
 export default {
   computed: {
-    ...mapWritableState(useAuthStore, { login: 'login', errors: 'errors' }),
-    ...mapState(useAuthStore, { getLoginData: 'getLoginData', getLoginUrl: 'getLoginUrl' }),
+    ...mapWritableState(useAuthStore, { login: 'login', errors: 'errors', showBtn: 'showBtn' }),
+    ...mapState(useAuthStore, {
+      getLoginData: 'getLoginData',
+      getApiRoutes: 'getApiRoutes'
+    }),
     ...mapState(useGlobalStore, { getLogo: 'getLogo' })
   },
   methods: {
@@ -81,4 +82,4 @@ export default {
 }
 </script>
 
-<style scoped src="./css/style.css"></style>
+<style scoped src="../../styles/auth.css"></style>

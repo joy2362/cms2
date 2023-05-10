@@ -7,7 +7,7 @@
 import crud from './crud'
 import toaster from './toaster'
 import helper from './helper'
-import Loading from '../components/loading/index.vue'
+import Loading from '../components/common/Loading.vue'
 
 export function registerHelper (app) {
   app

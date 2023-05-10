@@ -1,5 +1,5 @@
 export const logout = async (_this) => {
-  const res = await _this.$post('logout')
+  const res = await _this.$post('/api/admin/logout')
   if (res.data?.success) {
     _this.$success(res.data.message)
     _this.logoutFromState()

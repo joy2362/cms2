@@ -87,6 +87,7 @@ export const useProfileStore = defineStore('profile', {
         email: payload?.profile.email ?? ''
       }
     },
+
     setProfile (payload = []) {
       const token = localStorage.getItem('token')
       const config = {
@@ -102,6 +103,7 @@ export const useProfileStore = defineStore('profile', {
         }
       })
     },
+
     setAvatar (payload) {
       this.form.avatar = payload
     },

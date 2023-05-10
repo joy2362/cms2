@@ -1,6 +1,6 @@
 export const login = async (_this) => {
   _this.setGlobalLoading(true)
-  const res = await _this.$postWithOutToken(_this.getLoginUrl, _this.getLoginData)
+  const res = await _this.$post(_this.getApiRoutes.login, _this.getLoginData)
   if (res.data?.success) {
     _this.authToken(res.data.token)
     _this.setErrors()
@@ -19,7 +19,7 @@ export const login = async (_this) => {
 
 export const forgetPassword = async (_this) => {
   _this.setGlobalLoading(true)
-  const res = await _this.$postWithOutToken(_this.getForgetPasswordUrl, _this.getForgetPassData)
+  const res = await _this.$postWithOutToken(_this.getApiRoutes.resetPassword, _this.getForgetPassData)
   if (res.data?.success) {
     _this.setErrors()
     _this.clearForgetPassword()
@@ -36,7 +36,7 @@ export const forgetPassword = async (_this) => {
 
 export const resetPassword = async (_this) => {
   _this.setGlobalLoading(true)
-  const res = await _this.$postWithOutToken(_this.getResetPasswordUrl, _this.getResetPassData)
+  const res = await _this.$postWithOutToken(_this.getApiRoutes.resetPassword, _this.getResetPassData)
   if (res.data?.success) {
     _this.setErrors()
     _this.clearForgetPassword()

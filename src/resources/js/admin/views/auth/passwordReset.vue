@@ -19,27 +19,27 @@
           <div class="form-login">
             <v-text-field
                 v-model="resetPassword.password"
-                :append-icon="resetPassword.showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                :append-icon="showBtn.resetPass ? 'mdi-eye' : 'mdi-eye-off'"
                 :error="!!errors.password"
                 :error-messages="errors.password"
-                :type="resetPassword.showPass ? 'text' : 'password'"
+                :type="showBtn.resetPass ? 'text' : 'password'"
                 color="primary"
                 density="compact"
                 label="Password"
                 variant="underlined"
-                @click:append="resetPassword.showPass = !resetPassword.showPass"
+                @click:append="showBtn.resetPass = !showBtn.resetPass"
             ></v-text-field>
             <v-text-field
                 v-model="resetPassword.confirmPassword"
-                :append-icon="resetPassword.showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
+                :append-icon="showBtn.resetConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
                 :error="!!errors.confirmPassword"
                 :error-messages="errors.confirmPassword"
-                :type="resetPassword.showConfirmPass ? 'text' : 'password'"
+                :type="showBtn.resetConfirmPass ? 'text' : 'password'"
                 color="primary"
                 density="compact"
                 label="Confirm password"
                 variant="underlined"
-                @click:append="resetPassword.showConfirmPass = !resetPassword.showConfirmPass"
+                @click:append="showBtn.resetConfirmPass = !showBtn.resetConfirmPass"
             ></v-text-field>
 
           </div>
@@ -62,7 +62,7 @@
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
 import { useGlobalStore } from '../../stores/global'
-import { resetPassword } from './js/auth'
+import { resetPassword } from '../../js/auth'
 
 export default {
   name: 'passwordReset',
@@ -71,8 +71,8 @@ export default {
     this.setResetPasswordTokenAndEmail(data)
   },
   computed: {
-    ...mapWritableState(useAuthStore, { resetPassword: 'resetPassword', errors: 'errors' }),
-    ...mapState(useAuthStore, { getResetPassData: 'getResetPassData', getResetPasswordUrl: 'getResetPasswordUrl' }),
+    ...mapWritableState(useAuthStore, { resetPassword: 'resetPassword', errors: 'errors', showBtn: 'showBtn' }),
+    ...mapState(useAuthStore, { getResetPassData: 'getResetPassData', getApiRoutes: 'getApiRoutes' }),
     ...mapState(useGlobalStore, { getLogo: 'getLogo' })
   },
   methods: {
@@ -89,4 +89,4 @@ export default {
 }
 </script>
 
-<style scoped src="./css/style.css"></style>
+<style scoped src="../../styles/auth.css"></style>

@@ -48,13 +48,16 @@
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useAuthStore } from '../../stores/auth'
 import { useGlobalStore } from '../../stores/global'
-import { forgetPassword } from './js/auth'
+import { forgetPassword } from '../../js/auth'
 
 export default {
   name: 'ForgetPassword',
   computed: {
     ...mapWritableState(useAuthStore, { resetPassword: 'resetPassword', errors: 'errors' }),
-    ...mapState(useAuthStore, { getForgetPassData: 'getForgetPassData', getForgetPasswordUrl: 'getForgetPasswordUrl' }),
+    ...mapState(useAuthStore, {
+      getForgetPassData: 'getForgetPassData',
+      getApiRoutes: 'getApiRoutes'
+    }),
     ...mapState(useGlobalStore, { getLogo: 'getLogo' })
   },
   methods: {
@@ -67,4 +70,4 @@ export default {
 }
 </script>
 
-<style scoped src="./css/style.css"></style>
+<style scoped src="../../styles/auth.css"></style>

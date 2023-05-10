@@ -4,6 +4,7 @@ let instance = axios.create({
     Authorization: `Bearer ${token}`,
   }
 })
+
 const crud = {
   install (app) {
     app.config.globalProperties.$postWithOutToken = async (url, payload) => {
@@ -55,6 +56,7 @@ const crud = {
         'data': {},
         'errors': {},
       }
+
       await instance.post(url, payload).then(res => {
         response.data = res.data
       }).catch(err => {

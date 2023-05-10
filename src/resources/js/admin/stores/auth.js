@@ -7,7 +7,6 @@ export const useAuthStore = defineStore('auth', {
       login: {
         email: '',
         password: '',
-        showPass: false
       },
       resetPassword: {
         email: '',
@@ -16,6 +15,17 @@ export const useAuthStore = defineStore('auth', {
         confirmPassword: '',
         showPass: false,
         showConfirmPass: false,
+      },
+      showBtn: {
+        loginPass: false,
+        resetPass: false,
+        resetConfirmPass: false,
+      },
+      apiRoutes: {
+        login: '/api/admin/login',
+        logout: '/api/admin/logout',
+        forgetPassword: '/api/admin/forget-password',
+        resetPassword: '/api/admin/password-reset',
       },
       loginUrl: '/api/admin/login',
       forgetPasswordUrl: '/api/admin/forget-password',
@@ -41,6 +51,9 @@ export const useAuthStore = defineStore('auth', {
         confirmPassword: state.resetPassword.confirmPassword,
       }
     },
+    getApiRoutes (state) {
+      return state.apiRoutes
+    },
     getLoginUrl (state) {
       return state.loginUrl
     },
@@ -65,21 +78,14 @@ export const useAuthStore = defineStore('auth', {
       this.errors = payload
     },
     clearLogin () {
-      this.login = {
-        email: '',
-        password: '',
-        showPass: false
-      }
+      this.login.email = ''
+      this.login.password = ''
     },
     clearForgetPassword () {
-      this.resetPassword = {
-        email: '',
-        token: '',
-        password: '',
-        confirmPassword: '',
-        showPass: false,
-        showConfirmPass: false,
-      }
+      this.resetPassword.email = ''
+      this.resetPassword.token = ''
+      this.resetPassword.password = ''
+      this.resetPassword.confirmPassword = ''
     },
     setResetPasswordTokenAndEmail (payload) {
       this.resetPassword.token = payload.token

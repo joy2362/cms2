@@ -35,7 +35,7 @@ import { mapState } from 'pinia'
 import { useGlobalStore } from '../../stores/global'
 
 export default {
-  name: 'LoadingScreen',
+  name: 'Loading',
   computed: {
     ...mapState(useGlobalStore, { getLoading: 'getLoading' }),
   },
