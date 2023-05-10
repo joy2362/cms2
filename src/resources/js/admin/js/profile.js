@@ -39,7 +39,7 @@ export const generalUpdate = async (_this) => {
   const res = await _this.$post(_this.getApiRoutes.generalUpdate, _this.getGeneralForm)
   if (res.data?.success) {
     _this.$success(res.data.message)
-    _this.setProfile()
+    await setProfile(_this)
     _this.setGeneralForm()
   }
   if (res.errors?.error) {
@@ -54,6 +54,6 @@ export const generalUpdate = async (_this) => {
 export const setProfile = async (_this) => {
   const res = await _this.$get(_this.getApiRoutes.getProfile)
   if (res.data?.success) {
-    _this.profileSet(res.data)
+    _this.setProfile(res.data)
   }
 }

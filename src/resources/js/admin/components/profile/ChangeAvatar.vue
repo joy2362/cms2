@@ -25,7 +25,7 @@
         <v-btn
             color="blue-darken-1"
             variant="text"
-            @click="showProfileUpdate"
+            @click="showChangeAvatar = !showChangeAvatar"
         >
           Close
         </v-btn>
@@ -50,7 +50,7 @@ import { updateAvatar } from '../../js/profile'
 export default {
   name: 'ChangeAvatar',
   computed: {
-    ...mapWritableState(useProfileStore, { errors: 'errors' }),
+    ...mapWritableState(useProfileStore, { errors: 'errors', showChangeAvatar: 'showChangeAvatar' }),
     ...mapState(useProfileStore, {
       getApiRoutes: 'getApiRoutes',
       getShowChangeAvatar: 'getShowChangeAvatar',
@@ -61,7 +61,7 @@ export default {
     ...mapActions(useProfileStore, {
       setShowChangeAvatar: 'setShowChangeAvatar',
       setAvatar: 'setAvatar',
-      profileSet: 'profileSet'
+      setProfile: 'setProfile'
     }),
     ...mapActions(useGlobalStore, { setGlobalLoading: 'setGlobalLoading' }),
 

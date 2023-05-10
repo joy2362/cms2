@@ -151,6 +151,7 @@ import { useAuthStore } from '../../stores/auth'
 import { useProfileStore } from '../../stores/profile'
 import { useSettingStore } from '../../stores/setting'
 import { changeTheme, logout } from '../../js/layout'
+import { setProfile } from '../../js/profile'
 
 export default {
   data () {
@@ -197,10 +198,10 @@ export default {
     }
   },
   mounted () {
-    this.setProfile()
+    this.setProfileDetails()
   },
   computed: {
-    ...mapState(useProfileStore, { profile: 'getProfile' }),
+    ...mapState(useProfileStore, { profile: 'getProfile', getApiRoutes: 'getApiRoutes', }),
     ...mapState(useSettingStore, { getTheme: 'getTheme' }),
     ...mapWritableState(useSettingStore, { drawer: 'drawer' })
   },
@@ -216,9 +217,13 @@ export default {
     },
     async logout () {
       await logout(this)
+    },
+    async setProfileDetails () {
+      await setProfile(this)
     }
+
   },
 }
 </script>
 
-<style scoped src="./css/layout-app.css"></style>
+<style scoped src="../../styles/layout-app.css"></style>

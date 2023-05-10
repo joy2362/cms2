@@ -80,28 +80,12 @@ export const useProfileStore = defineStore('profile', {
     setShowChangeAvatar (payload) {
       this.showChangeAvatar = payload
     },
-    profileSet (payload = []) {
+    setProfile (payload = []) {
       this.profile = payload?.profile ?? []
       this.form = {
         name: payload?.profile.name ?? '',
         email: payload?.profile.email ?? ''
       }
-    },
-
-    setProfile (payload = []) {
-      const token = localStorage.getItem('token')
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      }
-      axios.get('/api/admin/profile', config).then(res => {
-        this.profile = res.data.profile ?? []
-        this.form = {
-          name: res.data.profile.name ?? '',
-          email: res.data.profile.email ?? ''
-        }
-      })
     },
 
     setAvatar (payload) {
